@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Balancing the Student Life — Week 8 Prototype V1</title>
+    <link rel="stylesheet" href="css/style.css"/>
+    <!-- D3 v7 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+</head>
+<body>
+<header class="site-header">
+    <h1>Balancing the Student Life</h1>
+    <p class="subtitle">Week 8 — Prototype V1 (Novel vis + interactions planned)</p>
+    <nav>
+        <a href="#intro">Intro</a>
+        <a href="#garden">Coping Strategy Garden</a>
+        <a href="#triangle">Emotion Constellation Triangle</a>
+    </nav>
+</header>
+
+<main id="app">
+    <section id="intro" class="panel">
+        <h2>Hook — The Student Spiral</h2>
+        <p>
+            Every student knows the pattern — less sleep, more caffeine, higher stress.
+            This prototype turns those daily choices into visuals you can explore.
+        </p>
+    </section>
+
+    <section id="garden" class="panel">
+        <div class="panel-header">
+            <h2>Novel Vis: Coping Strategy Garden</h2>
+            <p class="caption">
+                Stem height = stress reduction effectiveness (taller = lower average stress). Leaf color = frequency. Flower size = avg exercise hours.
+            </p>
+        </div>
+        <div id="garden-vis" class="vis-container" aria-label="Coping Strategy Garden"></div>
+        <div class="placeholder interactions">
+            <h3>Planned Interactions</h3>
+            <ul>
+                <li>Hover for tooltips (implemented)</li>
+                <li>Filter by major / year (planned)</li>
+                <li>Click a coping type to highlight related students in the triangle (planned linked view)</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="triangle" class="panel">
+        <div class="panel-header">
+            <h2>Emotion Constellation Triangle</h2>
+            <p class="caption">
+                Each dot is a student positioned by their normalized Stress (PSS-10), Anxiety (GAD-7), and Depression (PHQ-9) proportions.
+                Color encodes combined severity.
+            </p>
+        </div>
+        <div id="triangle-vis" class="vis-container" aria-label="Emotion Constellation Triangle"></div>
+        <div class="placeholder interactions">
+            <h3>Planned Interactions</h3>
+            <ul>
+                <li>Hover tooltips (implemented)</li>
+                <li>Brush to select a cluster → dim unrelated plants in the garden (planned)</li>
+            </ul>
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <p>© 2025 Team: Ayaan Asif · Cynthia Liu · Faraz Malik · Tahseen Rana</p>
+</footer>
+
+<script src="js/utils.js"></script>
+<script src="js/garden.js"></script>
+<script src="js/ternary.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
