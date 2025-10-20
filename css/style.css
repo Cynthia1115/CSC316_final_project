@@ -136,3 +136,22 @@ button:hover {
   color: var(--muted);
   font-size: 13px;
 }
+
+
+/* === Linked highlighting styles === */
+.row.deemph { opacity: 0.25; transition: opacity .2s ease; }
+.row.hilite { filter: drop-shadow(0 0 6px rgba(0,0,0,.18)); opacity: 1; }
+
+/* Smooth theme transitions */
+html, body, .panel, .visbox, svg { transition: background-color .35s ease, color .35s ease; }
+
+/* Night theme (toggle via data-theme="night" on <html>) */
+:root[data-theme="night"] {
+  --bg: #0f1215;
+  --card: #161a1e;
+  --card-border: #2b2f33;
+  --text: #eaeef3;
+  --muted: #9aa3ad;
+  --grid: #2a2f33;
+  --accent: #9dd3ff;
+}

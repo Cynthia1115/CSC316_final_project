@@ -34,6 +34,7 @@
 <!-- Header -->
 <header class="wrap">
     <h1 class="page-title">Balancing the Student Life</h1>
+<button id="themeToggle" class="btn" style="float:right">Night Mode</button>
     <div class="subtitle">Week 8 — Prototype V1 (Novel vis + interactions planned)</div>
     <nav class="inline-nav">
         <a href="#hook">Hook</a>
@@ -179,5 +180,22 @@
 <script src="js/ternary.js"></script>
 <script src="js/garden.js"></script>
 <script src="js/main.js"></script>
+
+<script>
+  (function(){
+    const btn = document.getElementById('themeToggle');
+    if (!btn) return;
+    function setTheme(t){
+      document.documentElement.dataset.theme = t;
+      if (window.bus) bus.call('themeChange', null, t);
+      btn.textContent = (t === 'night') ? 'Day Mode' : 'Night Mode';
+    }
+    btn.addEventListener('click', function(){
+      const cur = document.documentElement.dataset.theme === 'night' ? 'day' : 'night';
+      setTheme(cur);
+    });
+  })();
+</script>
+
 </body>
 </html>
