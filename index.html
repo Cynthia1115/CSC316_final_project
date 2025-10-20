@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Balancing the Student Life — Week 8 Prototype V1</title>
     <link rel="stylesheet" href="css/style.css"/>
-    <!-- D3 v7 CDN -->
+    <!-- D3 v7 -->
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 </head>
 <body>
@@ -13,55 +13,117 @@
     <h1>Balancing the Student Life</h1>
     <p class="subtitle">Week 8 — Prototype V1 (Novel vis + interactions planned)</p>
     <nav>
-        <a href="#intro">Intro</a>
-        <a href="#garden">Coping Strategy Garden</a>
-        <a href="#triangle">Emotion Constellation Triangle</a>
+        <a href="#hook">Hook</a>
+        <a href="#insights">Rising Insights</a>
+        <a href="#messages">Main Messages</a>
+        <a href="#solution">Solution</a>
     </nav>
 </header>
 
 <main id="app">
-    <section id="intro" class="panel">
+    <!-- 1) HOOK -->
+    <section id="hook" class="panel">
         <h2>Hook — The Student Spiral</h2>
         <p>
-            Every student knows the pattern — less sleep, more caffeine, higher stress.
-            This prototype turns those daily choices into visuals you can explore.
+            Every student knows the pattern — less sleep, more caffeine, higher stress. What does the data
+            actually say about how our daily choices connect to stress, anxiety, and depression? :contentReference[oaicite:8]{index=8}
         </p>
     </section>
 
-    <section id="garden" class="panel">
-        <div class="panel-header">
-            <h2>Novel Vis: Coping Strategy Garden</h2>
+    <!-- 2) RISING INSIGHTS -->
+    <section id="insights" class="panel">
+        <h2>Rising Insights — What the Data Reveal</h2>
+        <p class="caption">
+            Four creative views reveal patterns across sleep, emotions, coping, and demographics. :contentReference[oaicite:9]{index=9}
+        </p>
+
+        <!-- A. CLASSROOM OF STRESS (overview distribution) -->
+        <div class="section card" id="classroom">
+            <h3>Classroom of Stress</h3>
             <p class="caption">
-                Stem height = stress reduction effectiveness (taller = lower average stress). Leaf color = frequency. Flower size = avg exercise hours.
+                Pictograph of students colored by stress category (low / moderate / high); filter by major / year (planned).
+                Shows that stress is widespread, not isolated. :contentReference[oaicite:10]{index=10}
             </p>
+            <div id="classroom-vis" class="vis-container" aria-label="Classroom of Stress"></div>
         </div>
-        <div id="garden-vis" class="vis-container" aria-label="Coping Strategy Garden"></div>
-        <div class="placeholder interactions">
-            <h3>Planned Interactions</h3>
-            <ul>
-                <li>Hover for tooltips (implemented)</li>
-                <li>Filter by major / year (planned)</li>
-                <li>Click a coping type to highlight related students in the triangle (planned linked view)</li>
+
+        <!-- B. SLEEP ORBIT MAP (novel) -->
+        <div class="section card" id="orbit">
+            <h3>Sleep Orbit Map (Novel)</h3>
+            <p class="caption">
+                Polar scatter: angle = sleep start time, radius = stress score; color = anxiety. Lowest stress appears around
+                7–8 hours of sleep near midnight. :contentReference[oaicite:11]{index=11}
+            </p>
+            <div id="orbit-vis" class="vis-container" aria-label="Sleep Orbit Map"></div>
+        </div>
+
+        <!-- C. EMOTION CONSTELLATION TRIANGLE (implemented) -->
+        <div class="section card" id="triangle">
+            <h3>Emotion Constellation Triangle</h3>
+            <p class="caption">
+                Each dot positions a student by normalized Stress (PSS-10), Anxiety (GAD-7), Depression (PHQ-9). Color encodes
+                combined severity. Strong co-movement suggests these emotions cluster together. :contentReference[oaicite:12]{index=12}
+            </p>
+            <div id="triangle-vis" class="vis-container" aria-label="Emotion Constellation Triangle"></div>
+            <div class="caption">Planned: brush a cluster → dim unrelated plants in the Garden (linked view).</div>
+        </div>
+
+        <!-- D. COPING STRATEGY GARDEN (novel, implemented) -->
+        <div class="section card" id="garden">
+            <h3>Novel Vis: Coping Strategy Garden</h3>
+            <p class="caption">
+                Each flower = a coping behavior. Stem height = lower average stress (taller = better). Leaf color = frequency.
+                Flower size = avg exercise hours. Healthy, active strategies grow tall; passive habits stay short. :contentReference[oaicite:13]{index=13}
+            </p>
+            <div id="garden-vis" class="vis-container" aria-label="Coping Strategy Garden"></div>
+            <ul class="caption">
+                <li>Hover tooltips ✓</li>
+                <li>Click stem to pin stress value ✓</li>
+                <li>Planned: filter by major / year; linked highlight with triangle</li>
             </ul>
+        </div>
+
+        <!-- E. DEMOGRAPHIC PEAKS (Year & Gender) — optional placeholder if you choose this over Classroom -->
+        <!--
+        <div class="section card" id="demographics">
+          <h3>Stress by Year & Gender</h3>
+          <p class="caption">Split-violin overview showing stress peaks in Years 2–3 and slightly higher medians for female students. :contentReference[oaicite:14]{index=14}</p>
+          <div id="demographic-vis" class="vis-container" aria-label="Stress by Year and Gender"></div>
+        </div>
+        -->
+    </section>
+
+    <!-- 3) MAIN MESSAGES -->
+    <section id="messages" class="panel">
+        <h2>Main Messages</h2>
+
+        <div class="section card">
+            <h3>Balance Is Measurable</h3>
+            <p>
+                Lifestyle choices (sleep, exercise, coping strategies) are directly linked to stress and mental health — the
+                visuals above quantify these links. :contentReference[oaicite:15]{index=15}
+            </p>
+            <div id="balance-vis" class="vis-container" aria-label="Balance Radar (draft placeholder)"></div>
+            <p class="caption">Planned: small multiple radar “Balance Map” (sleep / social / health) per stress tier. :contentReference[oaicite:16]{index=16}</p>
+        </div>
+
+        <div class="section card">
+            <h3>Find Your Own Path to Well-Being</h3>
+            <p>
+                There isn’t a single fix. Students can explore the patterns and identify which habits (e.g., consistent sleep,
+                active coping) work best for them. :contentReference[oaicite:17]{index=17}
+            </p>
         </div>
     </section>
 
-    <section id="triangle" class="panel">
-        <div class="panel-header">
-            <h2>Emotion Constellation Triangle</h2>
-            <p class="caption">
-                Each dot is a student positioned by their normalized Stress (PSS-10), Anxiety (GAD-7), and Depression (PHQ-9) proportions.
-                Color encodes combined severity.
-            </p>
-        </div>
-        <div id="triangle-vis" class="vis-container" aria-label="Emotion Constellation Triangle"></div>
-        <div class="placeholder interactions">
-            <h3>Planned Interactions</h3>
-            <ul>
-                <li>Hover tooltips (implemented)</li>
-                <li>Brush to select a cluster → dim unrelated plants in the garden (planned)</li>
-            </ul>
-        </div>
+    <!-- 4) SOLUTION -->
+    <section id="solution" class="panel">
+        <h2>Solution — Find Your Balance</h2>
+        <p>
+            Try small adjustments and see predicted stress change. We’ll add a simple simulator next: move sliders for sleep,
+            study hours, and chosen coping → predicted stress & triangle highlight update. :contentReference[oaicite:18]{index=18}
+        </p>
+        <div id="simulator" class="vis-container" aria-label="Balance Simulator (placeholder)"></div>
     </section>
 </main>
 
@@ -69,9 +131,11 @@
     <p>© 2025 Team: Ayaan Asif · Cynthia Liu · Faraz Malik · Tahseen Rana</p>
 </footer>
 
+<!-- scripts -->
 <script src="js/utils.js"></script>
 <script src="js/garden.js"></script>
 <script src="js/ternary.js"></script>
+<!-- (optional future) <script src="js/orbit.js"></script> <script src="js/classroom.js"></script> <script src="js/balance.js"></script> -->
 <script src="js/main.js"></script>
 </body>
 </html>

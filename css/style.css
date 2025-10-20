@@ -1,74 +1,137 @@
 
+/* style.css — Light Brown Theme for Balancing the Student Life */
+
+/* === Global Colors === */
 :root {
-    --bg: #0f172a;
-    --card: #111827;
-    --text: #e5e7eb;
-    --muted: #94a3b8;
-    --accent1: #06b6d4;
-    --accent2: #f59e0b;
-    --accent3: #f43f5e;
-    --panel: #0b1220;
-    --grid: rgba(255,255,255,0.06);
+  --bg: #F3EAD7;
+  --card: #F7F1E5;
+  --card-border: #E6D9C5;
+  --text: #3E2F1C;
+  --muted: #6B5743;
+  --grid: #DEC9A6;
+  --accent: #A66A2B;
 }
 
-* { box-sizing: border-box; }
+/* === Base Layout === */
 body {
-    margin: 0;
-    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji","Segoe UI Emoji";
-    color: var(--text);
-    background: radial-gradient(1200px 600px at 10% -20%, #1e293b 0%, transparent 60%), var(--bg);
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  padding: 0;
 }
 
-.site-header {
-    padding: 24px 24px 8px;
-    border-bottom: 1px solid var(--grid);
-}
-.site-header h1 { margin: 0 0 6px 0; font-size: 28px; letter-spacing: 0.3px; }
-.subtitle { color: var(--muted); margin: 0 0 12px 0; }
-nav a { color: var(--muted); margin-right: 16px; text-decoration: none; }
-nav a:hover { color: var(--text); }
-
-main { max-width: 1100px; margin: 0 auto; padding: 16px; }
-.panel {
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00));
-    border: 1px solid var(--grid);
-    border-radius: 16px;
-    margin: 20px 0;
-    padding: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-}
-.panel-header { display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; }
-.caption { color: var(--muted); margin: 0; }
-.vis-container {
-    width: 100%;
-    height: 520px;
-    position: relative;
-    background: repeating-linear-gradient(90deg, transparent 0 60px, var(--grid) 60px 61px),
-    repeating-linear-gradient(0deg, transparent 0 60px, var(--grid) 60px 61px);
-    border-radius: 12px;
-    padding: 8px;
+h1, h2, h3, h4 {
+  color: var(--text);
 }
 
-.placeholder.interactions { margin-top: 12px; color: var(--muted); }
-.placeholder.interactions h3 { color: var(--text); margin-bottom: 6px; }
+p, li, span, text {
+  color: var(--text);
+}
+
+.panel, .section, .card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.site-header, .site-footer {
+  background: var(--card);
+  color: var(--text);
+  border-bottom: 2px solid var(--card-border);
+  padding: 12px 24px;
+  font-weight: 600;
+}
+
+/* === SVG and Chart Elements === */
+svg {
+  background: var(--bg);
+}
+
+.axis path, .axis line {
+  stroke: var(--grid);
+}
+
+.tick text {
+  fill: var(--text);
+  font-size: 12px;
+}
+
+.y-label {
+  fill: var(--text);
+  font-weight: 600;
+}
+
+.legend-title {
+  fill: var(--text);
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.legend-tick {
+  fill: var(--text);
+  font-size: 11px;
+}
+
+.value-pin {
+  fill: var(--text);
+  font-weight: 700;
+  stroke: var(--card);
+  stroke-width: 3px;
+  paint-order: stroke;
+  font-size: 11px;
+}
 
 .tooltip {
-    position: absolute;
-    pointer-events: none;
-    background: #111827;
-    color: #e5e7eb;
-    border: 1px solid #374151;
-    padding: 8px 10px;
-    font-size: 12px;
-    border-radius: 8px;
-    opacity: 0;
-    transition: opacity 120ms ease, transform 120ms ease;
-    filter: drop-shadow(0 6px 16px rgba(0,0,0,0.35));
-    max-width: 260px;
+  position: absolute;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 13px;
+  pointer-events: none;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-.legend { font-size: 12px; fill: var(--muted); }
-.axis text { fill: var(--muted); font-size: 12px; }
-.axis line, .axis path { stroke: #334155; }
+/* === Buttons, Links, Highlights === */
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
 
-.site-footer { padding: 24px; text-align: center; color: var(--muted); }
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #8c581d;
+}
+
+/* === Custom Visualization Frames === */
+#garden-vis, #triangle-vis {
+  border-radius: 14px;
+  border: 1px solid var(--card-border);
+  background: var(--card);
+  padding: 10px;
+  box-shadow: inset 0 0 8px rgba(0,0,0,0.05);
+}
+
+/* === Captions and Notes === */
+.caption {
+  color: var(--muted);
+  font-size: 13px;
+}
