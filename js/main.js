@@ -1,15 +1,27 @@
-// main.js — bootstraps all sections (safe if some functions aren't ready yet)
+// main.js (robust loader)
 (async function () {
-    const data = await d3.csv("data/cleaned_data.csv", d3.autoType);
+  async function loadCSV() {
+    try {
+      return await d3.csv("data/cleaned_data.csv", d3.autoType);
+    } catch (e1) {
+      try {
+        return await d3.csv("cleaned_data.csv", d3.autoType);
+      } catch (e2) {
+        console.error("Failed to load CSV from both paths", e1, e2);
+        return [];
+      }
+    }
+  }
 
-    // Rising Insights (implemented)
-    if (typeof renderTriangle === "function") renderTriangle(data);  // Emotion Triangle
-    if (typeof renderGarden === "function") renderGarden(data);      // Coping Garden
+  const data = await loadCSV();
 
-    // Rising Insights (placeholders; call when ready)
-    if (typeof renderClassroom === "function") renderClassroom(data);  // Classroom of Stress
-    if (typeof renderOrbit === "function") renderOrbit(data);          // Sleep Orbit Map
+  window.__FULL_ROWS__ = data;
 
-    // Main Messages (placeholder)
-    if (typeof renderBalance === "function") renderBalance(data);      // Balance Radar / small multiples
+  window.applyTriangleSelection = function (subset) {
+    const rows = subset && subset.length ? subset : window.__FULL_ROWS__;
+    if (window.renderGarden) window.renderGarden(rows);
+  };
+
+  if (window.renderTriangle) window.renderTriangle(data);
+  if (window.renderGarden) window.renderGarden(data);
 })();

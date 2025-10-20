@@ -1,18 +1,41 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>Balancing the Student Life — Week 8 Prototype V1</title>
-    <link rel="stylesheet" href="css/style.css"/>
-    <!-- D3 v7 -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Balancing the Student Life — CSC316 Final</title>
+
+    <!-- Theme -->
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!-- D3 must load BEFORE our vis scripts -->
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+
+    <!-- Lightweight layout styles to match your screenshots (won’t alter colors) -->
+    <style>
+  :root { --wrap: 1200px; --radius: 14px; --panel-bg: rgba(255,255,255,0.45); }
+  .wrap { max-width: var(--wrap); margin: 0 auto; padding: 1.25rem 1rem; }
+  .page-title { margin: 0 0 .25rem 0; }
+  .subtitle { margin: 0 0 .5rem 0; opacity: .85; font-weight: 600; }
+  .inline-nav a { margin-right: .75rem; text-decoration: underline; cursor: pointer; }
+  .panel { background: var(--panel-bg); border-radius: var(--radius); padding: 1rem 1.25rem; box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset; }
+  .panel.soft { padding: .9rem 1rem; }
+  .section-title { margin: 0 0 .35rem 0; }
+  .visbox { background: rgba(255,255,255,0.35); border-radius: var(--radius); padding: .75rem; }
+  .visblock { min-height: 520px; }
+  .muted { opacity: .82; }
+  .bullets { margin: .5rem 0 0 0; padding-left: 1.1rem; }
+  .site-footer { text-align: center; opacity: .75; padding: 1.5rem 0 2rem; }
+  .spacer { height: 10px; }
+</style>
 </head>
+
 <body>
-<header class="site-header">
-    <h1>Balancing the Student Life</h1>
-    <p class="subtitle">Week 8 — Prototype V1 (Novel vis + interactions planned)</p>
-    <nav>
+<!-- Header -->
+<header class="wrap">
+    <h1 class="page-title">Balancing the Student Life</h1>
+    <div class="subtitle">Week 8 — Prototype V1 (Novel vis + interactions planned)</div>
+    <nav class="inline-nav">
         <a href="#hook">Hook</a>
         <a href="#insights">Rising Insights</a>
         <a href="#messages">Main Messages</a>
@@ -20,110 +43,130 @@
     </nav>
 </header>
 
-<main id="app">
-    <!-- 1) HOOK -->
-    <section id="hook" class="panel">
-        <h2>Hook — The Student Spiral</h2>
-        <p>
-            Every student knows the pattern — less sleep, more caffeine, higher stress. What does the data
-            actually say about how our daily choices connect to stress, anxiety, and depression? :contentReference[oaicite:8]{index=8}
-        </p>
+<main>
+
+    <!-- HOOK -->
+    <section id="hook" class="wrap">
+        <h2 class="section-title">Hook — The Student Spiral</h2>
+        <div class="panel">
+            <p class="muted">
+                Every student knows the pattern — less sleep, more caffeine, higher stress. What does the data actually say
+                about how our daily choices connect to stress, anxiety, and depression?
+                <span class="muted">:contentReference[oai:cite:8]{index=8}</span>
+            </p>
+        </div>
     </section>
 
-    <!-- 2) RISING INSIGHTS -->
-    <section id="insights" class="panel">
-        <h2>Rising Insights — What the Data Reveal</h2>
-        <p class="caption">
-            Four creative views reveal patterns across sleep, emotions, coping, and demographics. :contentReference[oaicite:9]{index=9}
-        </p>
+    <!-- RISING INSIGHTS -->
+    <section id="insights" class="wrap">
+        <h2 class="section-title">Rising Insights — What the Data Reveal</h2>
 
-        <!-- A. CLASSROOM OF STRESS (overview distribution) -->
-        <div class="section card" id="classroom">
-            <h3>Classroom of Stress</h3>
-            <p class="caption">
+        <div class="panel soft muted">
+            Four creative views reveal patterns across sleep, emotions, coping, and demographics.
+            <span class="muted">:contentReference[oai:cite:9]{index=9}</span>
+        </div>
+        <div class="spacer"></div>
+
+        <!-- (A) Classroom of Stress – placeholder card to match your layout -->
+        <div class="panel">
+            <h3 class="section-title">Classroom of Stress</h3>
+            <p class="muted">
                 Pictograph of students colored by stress category (low / moderate / high); filter by major / year (planned).
-                Shows that stress is widespread, not isolated. :contentReference[oaicite:10]{index=10}
+                Shows that stress is widespread, not isolated.
+                <span class="muted">:contentReference[oai:cite:10]{index=10}</span>
             </p>
-            <div id="classroom-vis" class="vis-container" aria-label="Classroom of Stress"></div>
         </div>
 
-        <!-- B. SLEEP ORBIT MAP (novel) -->
-        <div class="section card" id="orbit">
-            <h3>Sleep Orbit Map (Novel)</h3>
-            <p class="caption">
+        <div class="spacer"></div>
+
+        <!-- (B) Sleep Orbit Map – placeholder card to match your layout -->
+        <div class="panel">
+            <h3 class="section-title">Sleep Orbit Map (Novel)</h3>
+            <p class="muted">
                 Polar scatter: angle = sleep start time, radius = stress score; color = anxiety. Lowest stress appears around
-                7–8 hours of sleep near midnight. :contentReference[oaicite:11]{index=11}
+                7–8 hours of sleep near midnight.
+                <span class="muted">:contentReference[oai:cite:11]{index=11}</span>
             </p>
-            <div id="orbit-vis" class="vis-container" aria-label="Sleep Orbit Map"></div>
         </div>
 
-        <!-- C. EMOTION CONSTELLATION TRIANGLE (implemented) -->
-        <div class="section card" id="triangle">
-            <h3>Emotion Constellation Triangle</h3>
-            <p class="caption">
-                Each dot positions a student by normalized Stress (PSS-10), Anxiety (GAD-7), Depression (PHQ-9). Color encodes
-                combined severity. Strong co-movement suggests these emotions cluster together. :contentReference[oaicite:12]{index=12}
+        <div class="spacer"></div>
+
+        <!-- (C) Emotion Constellation Triangle (interactive) -->
+        <div class="panel">
+            <h3 class="section-title">Emotion Constellation Triangle</h3>
+            <p class="muted">
+                Each dot positions a student by normalized <strong>Stress (PSS-10)</strong>, <strong>Anxiety (GAD-7)</strong>,
+                and <strong>Depression (PHQ-9)</strong>. Color encodes combined severity. Strong co-movement suggests these
+                emotions cluster together. <span class="muted">:contentReference[oai:cite:12]{index=12}</span>
             </p>
-            <div id="triangle-vis" class="vis-container" aria-label="Emotion Constellation Triangle"></div>
-            <div class="caption">Planned: brush a cluster → dim unrelated plants in the Garden (linked view).</div>
+            <div class="visbox">
+                <div id="triangle-vis" class="visblock"></div>
+            </div>
+            <ul class="bullets muted">
+                <li>Planned: brush a cluster → dim unrelated plants in the Garden (linked view).</li>
+            </ul>
         </div>
 
-        <!-- D. COPING STRATEGY GARDEN (novel, implemented) -->
-        <div class="section card" id="garden">
-            <h3>Novel Vis: Coping Strategy Garden</h3>
-            <p class="caption">
-                Each flower = a coping behavior. Stem height = lower average stress (taller = better). Leaf color = frequency.
-                Flower size = avg exercise hours. Healthy, active strategies grow tall; passive habits stay short. :contentReference[oaicite:13]{index=13}
+        <div class="spacer"></div>
+
+        <!-- (D) Coping Strategy Garden (interactive) -->
+        <div class="panel">
+            <h3 class="section-title">Novel Vis: Coping Strategy Garden</h3>
+            <p class="muted">
+                Each flower = a coping behavior. <strong>Stem height</strong> = lower average stress (taller = better).
+                Leaf/petal color hints at frequency. Flower size ≈ average exercise hours. Healthy, active strategies grow tall;
+                passive habits stay short. <span class="muted">:contentReference[oai:cite:13]{index=13}</span>
             </p>
-            <div id="garden-vis" class="vis-container" aria-label="Coping Strategy Garden"></div>
-            <ul class="caption">
+            <div class="visbox">
+                <div id="garden-vis" class="visblock"></div>
+            </div>
+            <ul class="bullets muted">
                 <li>Hover tooltips ✓</li>
                 <li>Click stem to pin stress value ✓</li>
                 <li>Planned: filter by major / year; linked highlight with triangle</li>
             </ul>
         </div>
-
-        <!-- E. DEMOGRAPHIC PEAKS (Year & Gender) — optional placeholder if you choose this over Classroom -->
-        <!--
-        <div class="section card" id="demographics">
-          <h3>Stress by Year & Gender</h3>
-          <p class="caption">Split-violin overview showing stress peaks in Years 2–3 and slightly higher medians for female students. :contentReference[oaicite:14]{index=14}</p>
-          <div id="demographic-vis" class="vis-container" aria-label="Stress by Year and Gender"></div>
-        </div>
-        -->
     </section>
 
-    <!-- 3) MAIN MESSAGES -->
-    <section id="messages" class="panel">
-        <h2>Main Messages</h2>
+    <!-- MAIN MESSAGES -->
+    <section id="messages" class="wrap">
+        <h2 class="section-title">Main Messages</h2>
 
-        <div class="section card">
-            <h3>Balance Is Measurable</h3>
-            <p>
-                Lifestyle choices (sleep, exercise, coping strategies) are directly linked to stress and mental health — the
-                visuals above quantify these links. :contentReference[oaicite:15]{index=15}
+        <div class="panel">
+            <h3 class="section-title">Balance Is Measurable</h3>
+            <p class="muted">
+                Lifestyle choices (sleep, exercise, coping strategies) are directly linked to stress and mental health —
+                the visuals above quantify these links.
+                <span class="muted">:contentReference[oai:cite:15]{index=15}</span>
             </p>
-            <div id="balance-vis" class="vis-container" aria-label="Balance Radar (draft placeholder)"></div>
-            <p class="caption">Planned: small multiple radar “Balance Map” (sleep / social / health) per stress tier. :contentReference[oaicite:16]{index=16}</p>
+            <p class="muted">
+                Planned: small multiple radar “Balance Map” (sleep / social / health) per stress tier.
+                <span class="muted">:contentReference[oai:cite:16]{index=16}</span>
+            </p>
         </div>
 
-        <div class="section card">
-            <h3>Find Your Own Path to Well-Being</h3>
-            <p>
+        <div class="spacer"></div>
+
+        <div class="panel">
+            <h3 class="section-title">Find Your Own Path to Well-Being</h3>
+            <p class="muted">
                 There isn’t a single fix. Students can explore the patterns and identify which habits (e.g., consistent sleep,
-                active coping) work best for them. :contentReference[oaicite:17]{index=17}
+                active coping) work best for them.
+                <span class="muted">:contentReference[oai:cite:17]{index=17}</span>
             </p>
         </div>
     </section>
 
-    <!-- 4) SOLUTION -->
-    <section id="solution" class="panel">
-        <h2>Solution — Find Your Balance</h2>
-        <p>
-            Try small adjustments and see predicted stress change. We’ll add a simple simulator next: move sliders for sleep,
-            study hours, and chosen coping → predicted stress & triangle highlight update. :contentReference[oaicite:18]{index=18}
-        </p>
-        <div id="simulator" class="vis-container" aria-label="Balance Simulator (placeholder)"></div>
+    <!-- SOLUTION -->
+    <section id="solution" class="wrap">
+        <h2 class="section-title">Solution — Find Your Balance</h2>
+        <div class="panel">
+            <p class="muted">
+                Try small adjustments and see predicted stress change. We’ll add a simple simulator next: move sliders for sleep,
+                study hours, and chosen coping → predicted stress & triangle highlight update.
+                <span class="muted">:contentReference[oai:cite:18]{index=18}</span>
+            </p>
+        </div>
     </section>
 </main>
 
@@ -131,11 +174,10 @@
     <p>© 2025 Team: Ayaan Asif · Cynthia Liu · Faraz Malik · Tahseen Rana</p>
 </footer>
 
-<!-- scripts -->
+<!-- Scripts: keep order to preserve interactions you already have -->
 <script src="js/utils.js"></script>
-<script src="js/garden.js"></script>
 <script src="js/ternary.js"></script>
-<!-- (optional future) <script src="js/orbit.js"></script> <script src="js/classroom.js"></script> <script src="js/balance.js"></script> -->
+<script src="js/garden.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
