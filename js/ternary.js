@@ -171,6 +171,28 @@
             .data(pts).join("circle")
             .attr("cx", d=>d.x).attr("cy", d=>d.y).attr("r", d=>rr(d.sev))
             .attr("fill", d=>color(d.sev)).attr("opacity", 0.0);
+
+// --- linked highlighting from Garden ---
+        (function(){
+            function firstKey(rows, options){
+                for (const k of options){
+                    const hit = rows.find(r => r[k] != null && r[k] !== "");
+                    if (hit) return k;
+                }
+                return null;
+            }
+            const copingKey = firstKey(rows, ["coping","coping_strategy","what_coping_strategy_you_use_as_a_student?"]);
+            window.addEventListener("highlightCoping", (ev)=>{
+                const name = ev.detail && ev.detail.coping;
+                if (!copingKey || !name){ return; }
+                dots.transition().duration(150).attr("opacity", d => (d.row[copingKey]===name)? 1 : 0.12)
+                    .attr("r", d => (d.row[copingKey]===name)? rr(d.sev)*1.3 : rr(d.sev));
+            });
+            window.addEventListener("clearHighlight", ()=>{
+                dots.transition().duration(150).attr("opacity", 0.9).attr("r", d=>rr(d.sev));
+            });
+        })();
+
         dots.transition().duration(700).attr("opacity", 0.9);
 
         // shimmer reacts to selection/hover
