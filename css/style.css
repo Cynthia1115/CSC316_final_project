@@ -1,189 +1,128 @@
-
 /* style.css — Light Brown Theme for Balancing the Student Life */
 
 /* === Global Colors === */
 :root {
-  --bg: #F3EAD7;
-  --card: #F7F1E5;
-  --card-border: #E6D9C5;
-  --text: #3E2F1C;
-  --muted: #6B5743;
-  --grid: #DEC9A6;
-  --accent: #A66A2B;
+    --bg: #F3EAD7;
+    --card: #F7F1E5;
+    --card-border: #E6D9C5;
+    --text: #3E2F1C;
+    --muted: #6B5743;
+    --grid: #DEC9A6;
+    --accent: #A66A2B;
 }
 
 /* === Base Layout === */
 html, body { background: var(--bg); }
 body {
-  font-family: 'Inter', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  margin: 0;
-  padding: 0;
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 0;
 }
 
-h1, h2, h3, h4 {
-  color: var(--text);
-}
-
-p, li, span, text {
-  color: var(--text);
-}
+h1, h2, h3, h4 { color: var(--text); }
+p, li, span, text { color: var(--text); }
 
 .panel, .section, .card {
-  background: var(--card);
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
-  padding: 20px;
-  margin-bottom: 20px;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    margin-bottom: 20px;
 }
 
 .site-header, .site-footer {
-  background: var(--card);
-  color: var(--text);
-  border-bottom: 2px solid var(--card-border);
-  padding: 12px 24px;
-  font-weight: 600;
+    background: var(--card);
+    color: var(--text);
+    border-bottom: 2px solid var(--card-border);
+    padding: 12px 24px;
+    font-weight: 600;
 }
 
 /* === SVG and Chart Elements === */
-svg {
-  background: var(--bg);
-}
+svg { background: var(--bg); }
 
-.axis path, .axis line {
-  stroke: var(--grid);
-}
+.axis path, .axis line { stroke: var(--grid); }
 
 .tick text {
-  fill: var(--text);
-  font-size: 12px;
+    fill: var(--text);
+    font-size: 12px;
 }
 
-.y-label {
-  fill: var(--text);
-  font-weight: 600;
-}
+.y-label { fill: var(--text); font-weight: 600; }
 
-.legend-title {
-  fill: var(--text);
-  font-weight: 700;
-  font-size: 12px;
-}
-
-.legend-tick {
-  fill: var(--text);
-  font-size: 11px;
-}
+.legend-title { fill: var(--text); font-weight: 700; font-size: 12px; }
+.legend-tick  { fill: var(--text); font-size: 11px; }
 
 .value-pin {
-  fill: var(--text);
-  font-weight: 700;
-  stroke: var(--card);
-  stroke-width: 3px;
-  paint-order: stroke;
-  font-size: 11px;
+    fill: var(--text);
+    font-weight: 700;
+    stroke: var(--card);
+    stroke-width: 3px;
+    paint-order: stroke;
+    font-size: 11px;
 }
 
 .tooltip {
-  position: absolute;
-  background: var(--card);
-  border: 1px solid var(--card-border);
-  color: var(--text);
-  border-radius: 8px;
-  padding: 8px 10px;
-  font-size: 13px;
-  pointer-events: none;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    position: absolute;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    color: var(--text);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 13px;
+    pointer-events: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 /* === Buttons, Links, Highlights === */
-a {
-  color: var(--accent);
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
 
 button {
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
 }
-
-button:hover {
-  background: #8c581d;
-}
+button:hover { background: #8c581d; }
 
 /* === Custom Visualization Frames === */
 #garden-vis, #triangle-vis {
-  border-radius: 14px;
-  border: 1px solid var(--card-border);
-  background: var(--card);
-  padding: 10px;
-  box-shadow: inset 0 0 8px rgba(0,0,0,0.05);
+    border-radius: 14px;
+    border: 1px solid var(--card-border);
+    background: var(--card);
+    padding: 10px;
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.05);
+
+    /* IMPORTANT: anchor any absolutely-positioned UI (labels/tools) to each vis */
+    position: relative;
 }
 
 /* === Captions and Notes === */
-.caption {
-  color: var(--muted);
-  font-size: 13px;
-}
-
+.caption { color: var(--muted); font-size: 13px; }
 
 /* === Linked highlighting styles === */
 .row.deemph { opacity: 0.25; transition: opacity .2s ease; }
 .row.hilite { filter: drop-shadow(0 0 6px rgba(0,0,0,.18)); opacity: 1; }
 
 /* Smooth theme transitions */
-html, body, .panel, .visbox, svg { transition: background-color .35s ease, color .35s ease; }
+html, body, .panel, .visbox, svg {
+    transition: background-color .35s ease, color .35s ease;
+}
 
 /* Night theme (toggle via data-theme="night" on <html>) */
 :root[data-theme="night"] {
-  --bg: #0f1215;
-  --card: #161a1e;
-  --card-border: #2b2f33;
-  --text: #eaeef3;
-  --muted: #9aa3ad;
-  --grid: #2a2f33;
-  --accent: #9dd3ff;
+    --bg: #0f1215;
+    --card: #161a1e;
+    --card-border: #2b2f33;
+    --text: #eaeef3;
+    --muted: #9aa3ad;
+    --grid: #2a2f33;
+    --accent: #9dd3ff;
 }
-
-/* --- add-ons for Triangle guided overlay (Option 1) --- */
-.tri-halo {
-    fill: none;
-    stroke: var(--accent);
-    stroke-width: 2.5px;
-    opacity: 0.0;
-    pointer-events: none;
-}
-
-@keyframes triPulse {
-    0% { opacity: 0.0; stroke-width: 2.5px; }
-    50% { opacity: 0.5; stroke-width: 6px; }
-    100% { opacity: 0.0; stroke-width: 2.5px; }
-}
-
-.tri-halo.pulse { animation: triPulse 1.8s ease-in-out infinite; }
-
-#tri-insight-overlay{
-    position: fixed; right: 18px; bottom: 78px; z-index: 9999;
-    display: flex; gap: 10px; align-items: center;
-    background: rgba(255,255,255,0.6); backdrop-filter: blur(6px);
-    border: 1px solid rgba(0,0,0,0.08); border-radius: 12px;
-    padding: 10px 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    font-family: Inter, system-ui, sans-serif;
-}
-#tri-insight-overlay .label{ font-weight: 700; color: #2b2116; }
-#tri-insight-overlay button{
-    border: none; border-radius: 10px; padding: 8px 12px; cursor: pointer;
-    background: var(--accent); color: white; font-weight: 700;
-}
-#tri-insight-overlay button:hover{ filter: brightness(0.92); }
