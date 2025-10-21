@@ -13,28 +13,28 @@
 
     <!-- Lightweight layout styles to match your screenshots (won’t alter colors) -->
     <style>
-  :root { --wrap: 1200px; --radius: 14px; --panel-bg: rgba(255,255,255,0.45); }
-  .wrap { max-width: var(--wrap); margin: 0 auto; padding: 1.25rem 1rem; }
-  .page-title { margin: 0 0 .25rem 0; }
-  .subtitle { margin: 0 0 .5rem 0; opacity: .85; font-weight: 600; }
-  .inline-nav a { margin-right: .75rem; text-decoration: underline; cursor: pointer; }
-  .panel { background: var(--panel-bg); border-radius: var(--radius); padding: 1rem 1.25rem; box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset; }
-  .panel.soft { padding: .9rem 1rem; }
-  .section-title { margin: 0 0 .35rem 0; }
-  .visbox { background: rgba(255,255,255,0.35); border-radius: var(--radius); padding: .75rem; }
-  .visblock { min-height: 520px; }
-  .muted { opacity: .82; }
-  .bullets { margin: .5rem 0 0 0; padding-left: 1.1rem; }
-  .site-footer { text-align: center; opacity: .75; padding: 1.5rem 0 2rem; }
-  .spacer { height: 10px; }
-</style>
+        :root { --wrap: 1200px; --radius: 14px; --panel-bg: rgba(255,255,255,0.45); }
+        .wrap { max-width: var(--wrap); margin: 0 auto; padding: 1.25rem 1rem; }
+        .page-title { margin: 0 0 .25rem 0; }
+        .subtitle { margin: 0 0 .5rem 0; opacity: .85; font-weight: 600; }
+        .inline-nav a { margin-right: .75rem; text-decoration: underline; cursor: pointer; }
+        .panel { background: var(--panel-bg); border-radius: var(--radius); padding: 1rem 1.25rem; box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset; }
+        .panel.soft { padding: .9rem 1rem; }
+        .section-title { margin: 0 0 .35rem 0; }
+        .visbox { background: rgba(255,255,255,0.35); border-radius: var(--radius); padding: .75rem; }
+        .visblock { min-height: 520px; }
+        .muted { opacity: .82; }
+        .bullets { margin: .5rem 0 0 0; padding-left: 1.1rem; }
+        .site-footer { text-align: center; opacity: .75; padding: 1.5rem 0 2rem; }
+        .spacer { height: 10px; }
+    </style>
 </head>
 
 <body>
 <!-- Header -->
 <header class="wrap">
     <h1 class="page-title">Balancing the Student Life</h1>
-<button id="themeToggle" class="btn" style="float:right">Night Mode</button>
+    <button id="themeToggle" class="btn" style="float:right">Night Mode</button>
     <div class="subtitle">Week 8 — Prototype V1 (Novel vis + interactions planned)</div>
     <nav class="inline-nav">
         <a href="#hook">Hook</a>
@@ -43,6 +43,51 @@
         <a href="#solution">Solution</a>
     </nav>
 </header>
+
+
+<!-- CONTROLS (Filters + Simulator) -->
+<section id="controls" class="wrap">
+    <div class="panel">
+        <h2 class="section-title">Explore Controls</h2>
+        <div style="display:flex; flex-wrap:wrap; gap:14px; align-items:flex-end;">
+            <!-- Filters -->
+            <div>
+                <div style="font-weight:700; margin-bottom:6px;">Filters</div>
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <label style="display:flex; flex-direction:column; gap:4px;">
+                        <span class="muted">Year</span>
+                        <select id="fYear"><option value="">All</option></select>
+                    </label>
+                    <label style="display:flex; flex-direction:column; gap:4px;">
+                        <span class="muted">Major</span>
+                        <select id="fMajor"><option value="">All</option></select>
+                    </label>
+                    <label style="display:flex; flex-direction:column; gap:4px;">
+                        <span class="muted">Gender</span>
+                        <select id="fGender"><option value="">All</option></select>
+                    </label>
+                    <button id="clearFilters" type="button" style="margin-left:6px;">Clear</button>
+                </div>
+            </div>
+            <!-- Simulator -->
+            <div style="flex:1; min-width:280px;">
+                <div style="font-weight:700; margin-bottom:6px;">Quick Simulator (prototype)</div>
+                <div style="display:grid; grid-template-columns: 160px 1fr auto; gap:8px; align-items:center;">
+                    <div class="muted">Sleep hours</div>
+                    <input id="simSleep" type="range" min="4" max="10" step="0.5" value="7.5">
+                    <div id="simSleepVal" class="muted">7.5</div>
+                    <div class="muted">Exercise hrs/wk</div>
+                    <input id="simEx" type="range" min="0" max="14" step="1" value="3">
+                    <div id="simExVal" class="muted">3</div>
+                    <div class="muted">Coping</div>
+                    <select id="simCoping"><option value="">(auto from data)</option></select>
+                    <div id="simOut" style="font-weight:700;">Predicted stress: —</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 
 <main>
 
@@ -182,19 +227,19 @@
 <script src="js/main.js"></script>
 
 <script>
-  (function(){
-    const btn = document.getElementById('themeToggle');
-    if (!btn) return;
-    function setTheme(t){
-      document.documentElement.dataset.theme = t;
-      if (window.bus) bus.call('themeChange', null, t);
-      btn.textContent = (t === 'night') ? 'Day Mode' : 'Night Mode';
-    }
-    btn.addEventListener('click', function(){
-      const cur = document.documentElement.dataset.theme === 'night' ? 'day' : 'night';
-      setTheme(cur);
-    });
-  })();
+    (function(){
+        const btn = document.getElementById('themeToggle');
+        if (!btn) return;
+        function setTheme(t){
+            document.documentElement.dataset.theme = t;
+            if (window.bus) bus.call('themeChange', null, t);
+            btn.textContent = (t === 'night') ? 'Day Mode' : 'Night Mode';
+        }
+        btn.addEventListener('click', function(){
+            const cur = document.documentElement.dataset.theme === 'night' ? 'day' : 'night';
+            setTheme(cur);
+        });
+    })();
 </script>
 
 </body>
