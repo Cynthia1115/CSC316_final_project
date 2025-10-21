@@ -1,5 +1,9 @@
-// ternary.js — v6 Creative Triangle — patched so overlays/tools are inside #triangle-vis
+// ternary.js — v6.1 (stable render)
+// Renders into #triangle-vis > #triangle-stage so overlays never get cleared.
+// Overlays/tools are anchored to #triangle-vis and kept on top with z-index.
+
 (function () {
+    // ---------- Small tooltip helper ----------
     function htmlTip(container) {
         const t = container.append("div")
             .style("position", "absolute")
@@ -18,19 +22,25 @@
         };
     }
 
+    // ---------- Overlays (tour, tools, stats) anchored to the triangle container ----------
     function ensureOverlay(){
         const host = document.querySelector("#triangle-vis");
         if (!host) return;
 
-        // main triangle overlay (tour)
+        host.style.position = host.style.position || "relative"; // anchor
+
+        const zTop = 1000;
+
         if (!document.getElementById("tri-insight-overlay")) {
             const div = document.createElement("div");
             div.id = "tri-insight-overlay";
             Object.assign(div.style, {
-                position:"absolute", right:"18px", bottom:"18px", zIndex:10, display:"flex",
-                gap:"10px", alignItems:"center", background:"rgba(255,255,255,0.6)", backdropFilter:"blur(6px)",
-                border:"1px solid rgba(0,0,0,0.08)", borderRadius:"12px", padding:"10px 12px",
-                boxShadow:"0 4px 12px rgba(0,0,0,0.08)", fontFamily:"Inter, system-ui, sans-serif"
+                position:"absolute", right:"18px", bottom:"18px", zIndex:zTop,
+                display:"flex", gap:"10px", alignItems:"center",
+                background:"rgba(255,255,255,0.6)", backdropFilter:"blur(6px)",
+                border:"1px solid rgba(0,0,0,0.08)", borderRadius:"12px",
+                padding:"10px 12px", boxShadow:"0 4px 12px rgba(0,0,0,0.08)",
+                fontFamily:"Inter, system-ui, sans-serif"
             });
             const label = document.createElement("div");
             label.className="label";
@@ -40,61 +50,70 @@
             btn.id="tri-next"; btn.textContent="Next →";
             Object.assign(btn.style, {border:"none", borderRadius:"10px", padding:"8px 12px",
                 cursor:"pointer", background:"var(--accent, #a66a2b)", color:"white", fontWeight:"700"});
-            btn.onmouseenter = () => btn.style.filter = "brightness(0.92)";
-            btn.onmouseleave = () => btn.style.filter = "none";
             div.append(label, btn);
             host.appendChild(div);
         }
 
-        // tools overlay
         if (!document.getElementById("tri-tools")) {
             const tools = document.createElement("div");
             tools.id = "tri-tools";
             Object.assign(tools.style, {
-                position:"absolute", right:"18px", bottom:"82px", zIndex:10, display:"flex",
-                gap:"8px", alignItems:"center", background:"rgba(255,255,255,0.75)", backdropFilter:"blur(6px)",
-                border:"1px solid rgba(0,0,0,0.08)", borderRadius:"12px", padding:"8px 10px",
-                boxShadow:"0 4px 12px rgba(0,0,0,0.08)", fontFamily:"Inter, system-ui, sans-serif"
+                position:"absolute", right:"18px", bottom:"82px", zIndex:zTop,
+                display:"flex", gap:"8px", alignItems:"center",
+                background:"rgba(255,255,255,0.75)", backdropFilter:"blur(6px)",
+                border:"1px solid rgba(0,0,0,0.08)", borderRadius:"12px",
+                padding:"8px 10px", boxShadow:"0 4px 12px rgba(0,0,0,0.08)",
+                fontFamily:"Inter, system-ui, sans-serif"
             });
             function mkBtn(id, text){
                 const b=document.createElement("button"); b.id=id; b.textContent=text;
                 Object.assign(b.style,{border:"none", borderRadius:"10px", padding:"6px 10px", cursor:"pointer",
                     background:"#f0eadf", color:"#2b2116", fontWeight:"700"});
-                b.onmouseenter=()=>b.style.filter="brightness(0.95)"; b.onmouseleave=()=>b.style.filter="none";
                 return b;
             }
-            const heatBtn=mkBtn("tri-heat","Heatmap");
-            const clearBtn=mkBtn("tri-clear","Clear");
+            tools.append(mkBtn("tri-heat","Heatmap"), mkBtn("tri-clear","Clear"));
             const hint=document.createElement("span"); hint.textContent="Hold ⇧ Shift = Lasso";
             Object.assign(hint.style,{fontSize:"12px", color:"#6b5b4a", marginLeft:"6px"});
-            tools.append(heatBtn, clearBtn, hint);
+            tools.append(hint);
             host.appendChild(tools);
         }
 
-        // selection stats chip
         if (!document.getElementById("tri-stats")) {
             const chip=document.createElement("div");
             chip.id="tri-stats";
             chip.innerHTML=`<strong>Selected:</strong> <span id="ts-n">0</span> • <span id="ts-mean">—</span>`;
             Object.assign(chip.style, {
-                position:"absolute", left:"24px", bottom:"24px", zIndex:10, background:"rgba(255,255,255,0.75)",
-                backdropFilter:"blur(6px)", border:"1px solid rgba(0,0,0,0.08)", borderRadius:"12px",
+                position:"absolute", left:"24px", bottom:"24px", zIndex:zTop,
+                background:"rgba(255,255,255,0.75)", backdropFilter:"blur(6px)",
+                border:"1px solid rgba(0,0,0,0.08)", borderRadius:"12px",
                 padding:"8px 12px", fontFamily:"Inter, system-ui, sans-serif", color:"#2b2116"
             });
             host.appendChild(chip);
         }
     }
 
+    // ---------- Main render (into #triangle-stage) ----------
     function renderTriangle(rows) {
         ensureOverlay();
 
-        const root = d3.select("#triangle-vis");
-        root.selectAll("*:not(#tri-insight-overlay):not(#tri-tools):not(#tri-stats)").remove();
+        const container = document.getElementById("triangle-vis");
+        if (!container) return;
 
+        // Create a dedicated stage that we can safely clear
+        let stage = document.getElementById("triangle-stage");
+        if (!stage) {
+            stage = document.createElement("div");
+            stage.id = "triangle-stage";
+            stage.style.position = "relative";
+            container.insertBefore(stage, container.firstChild); // keep overlays on top
+        }
+        stage.innerHTML = ""; // clear drawing only
+
+        const root = d3.select(stage);
         const wrap = root.append("div").style("position","relative").style("width","100%").style("height","100%");
         const tip = htmlTip(wrap);
 
-        const width = root.node().clientWidth || 980;
+        const width = (container.clientWidth || 980);
         const height = 560;
         const margin = { top: 24, right: 180, bottom: 24, left: 24 };
 
@@ -103,7 +122,7 @@
 
         const svg = wrap.append("svg").attr("width", width).attr("height", height);
 
-        // --- DEFs for severity-reactive shimmer
+        // background shimmer
         const defs = svg.append("defs");
         const grad = defs.append("radialGradient").attr("id","triShimmer").attr("cx","50%").attr("cy","50%").attr("r","70%");
         grad.append("stop").attr("offset","0%").attr("stop-color","#ffffff").attr("stop-opacity",0.00);
@@ -111,7 +130,7 @@
         grad.append("stop").attr("offset","100%").attr("stop-color","#ff6f61").attr("stop-opacity",0.10);
         svg.append("rect").attr("x",0).attr("y",0).attr("width",width).attr("height",height).attr("fill","url(#triShimmer)");
 
-        // group for triangle content
+        // triangle group
         const g = svg.append("g")
             .attr("transform",
                 `translate(${margin.left + (width - margin.left - margin.right - side) / 2},
@@ -140,11 +159,10 @@
             if (![s,a,d].every(Number.isFinite)) continue;
             const [sn, an, dn] = norm(s,a,d);
             const [x,y] = bary(dn, sn, an);
-            const sev = (s+a+d) / 30; // ~0..1
+            const sev = (s+a+d) / 30;
             pts.push({x,y,s,a,d,sn,an,dn,sev,row:r});
         }
 
-        // color/size
         const color = d3.scaleSequential(d3.interpolatePlasma).domain(d3.extent(pts, d=>d.sev));
         const rr = d3.scaleSqrt().domain(d3.extent(pts, d=>d.sev)).range([1.8, 5.2]);
 
@@ -155,8 +173,8 @@
             .attr("fill", d=>color(d.sev)).attr("opacity", 0.0);
         dots.transition().duration(700).attr("opacity", 0.9);
 
-        // --- shimmer animation tuned by severity
-        let activeSeverity = d3.mean(pts, d=>d.sev) || 0.3; // default
+        // shimmer reacts to selection/hover
+        let activeSeverity = d3.mean(pts, d=>d.sev) || 0.3;
         function updateShimmerIntensity(sev){
             activeSeverity = Math.max(0, Math.min(1, sev));
             const warm = d3.interpolateRgb("#ffd89a", "#ff6f61")(activeSeverity);
@@ -175,22 +193,17 @@
             grad.attr("cx", cx + "%").attr("cy", cy + "%");
         });
 
-        // Hover halo
+        // hover helpers
         const halo = g.append("circle").attr("fill","none").attr("stroke","var(--accent, #a66a2b)").attr("stroke-width", 2.5).attr("opacity", 0).attr("pointer-events","none");
         function pulse(cx, cy){
             halo.interrupt().attr("cx", cx).attr("cy", cy).attr("r", 16).attr("opacity", 0.0);
-            function loop(){
-                halo.transition().duration(900)
-                    .attr("opacity", 0.5).attr("stroke-width", 6).attr("r", 26)
-                    .transition().duration(900).attr("opacity", 0.0).attr("stroke-width", 2.5).attr("r", 16)
-                    .on("end", loop);
-            } loop();
+            function loop(){ halo.transition().duration(900).attr("opacity",0.5).attr("stroke-width",6).attr("r",26)
+                .transition().duration(900).attr("opacity",0.0).attr("stroke-width",2.5).attr("r",16).on("end",loop); }
+            loop();
         }
         function stopPulse(){ halo.interrupt().attr("opacity", 0); }
 
-        // neighbor lines
         const linkG = g.append("g").attr("class","links").attr("stroke","#6b5743").attr("stroke-opacity",0.25);
-
         const qt = d3.quadtree().x(d=>d.x).y(d=>d.y).addAll(pts);
         function neighbors(p, radius=36, maxN=28){
             const near=[];
@@ -228,12 +241,10 @@
               ${mk('Depression', d.d, 9, d.dn)}`;
         }
 
-        // value label near hovered or pinned point
         const valueLabelG = g.append("g").attr("class","hover-label").style("pointer-events","none").style("opacity",0);
         valueLabelG.append("rect").attr("rx",6).attr("ry",6).attr("fill","rgba(255,255,255,0.92)").attr("stroke","rgba(0,0,0,0.08)");
         const valueText = valueLabelG.append("text").attr("x",8).attr("y",14).attr("font-size",12).attr("font-weight",700).attr("fill","#2b2116");
         let pinned = null;
-
         function showValueLabel(d){
             const text = `S:${d.s.toFixed(1)}  A:${d.a.toFixed(1)}  D:${d.d.toFixed(1)}`;
             valueText.text(text);
@@ -244,47 +255,11 @@
         }
         function hideValueLabel(){ if (!pinned) valueLabelG.style("opacity",0); }
 
-        // sparkles
-        const sparkleG = g.append("g").attr("class","sparkles");
-        function burstSparkles(px, py, sev){
-            const n = Math.round(2 + sev*5);
-            const data = d3.range(n).map(i=>({
-                x:px, y:py, a:(Math.random()*Math.PI*2), r0: 0.8 + Math.random()*1.6,
-                dist: 12 + Math.random()* (20 + 30*sev), life: 300 + Math.random()*500
-            }));
-            const nodes = sparkleG.selectAll(null).data(data).join("circle")
-                .attr("cx", d=>d.x).attr("cy", d=>d.y).attr("r", d=>d.r0)
-                .attr("fill", d3.interpolateRgb("#ffd89a","#ff6f61")(0.4 + 0.6*sev)).attr("opacity", 0.95);
-            nodes.transition().duration(d=>d.life)
-                .attr("cx", d=>d.x + Math.cos(d.a)*d.dist).attr("cy", d=>d.y + Math.sin(d.a)*d.dist)
-                .attr("r", d=>d.r0*(0.4+0.6*Math.random())).attr("opacity", 0).remove();
-        }
-
-        function updateStats(selected){
-            const nEl = document.getElementById("ts-n");
-            const mEl = document.getElementById("ts-mean");
-            if (!selected || !selected.length){ nEl.textContent="0"; mEl.textContent="—"; return; }
-            nEl.textContent = selected.length;
-            mEl.textContent = "mean severity: " + d3.mean(selected, d=>d.sev).toFixed(2);
-        }
-
-        // isolate helpers
-        function isolate(d){
-            dots.attr("opacity", p => p===d ? 1 : 0.12);
-            dotG.selectAll("circle").filter(p => p===d).raise().attr("stroke","#2b2116").attr("stroke-width",1.6).attr("r", rr(d.sev)*1.25);
-        }
-        function resetIsolation(){
-            dots.attr("opacity", 0.9).attr("stroke", null).attr("stroke-width",null).attr("r", d=>rr(d.sev));
-        }
-
         const showPoint = (ev,d)=>{
             const [px,py] = d3.pointer(ev, wrap.node());
-            tip.show(tipHTML(d), [px,py]);
+            htmlTip(wrap).show(tipHTML(d), [px,py]);
             pulse(d.x, d.y);
-            burstSparkles(d.x, d.y, d.sev);
-            updateShimmerIntensity(d.sev*0.85 + activeSeverity*0.15);
             showValueLabel(d);
-            isolate(d);
             const ns = neighbors(d, 48, 36);
             const L = linkG.selectAll("line").data(ns, k=>k.x+"-"+k.y);
             L.join(
@@ -295,21 +270,15 @@
             );
         };
         function leavePoint(){
-            tip.hide(); stopPulse(); hideValueLabel(); linkG.selectAll("line").transition().duration(200).remove();
-            if (!pinned) resetIsolation();
+            hideValueLabel(); linkG.selectAll("line").transition().duration(200).remove();
+            if (!pinned) halo.interrupt().attr("opacity",0);
             updateShimmerIntensity(d3.mean(pts, d=>d.sev) || 0.3);
         }
 
-        dots
-            .on("mouseenter", showPoint)
-            .on("mousemove", (ev)=> tip.move(d3.pointer(ev, wrap.node())))
+        dots.on("mouseenter", showPoint)
+            .on("mousemove", (ev)=> htmlTip(wrap).move(d3.pointer(ev, wrap.node())))
             .on("mouseleave", leavePoint)
-            .on("click", (ev, d)=>{ // toggle pin
-                if (pinned === d){ pinned=null; valueLabelG.style("opacity",0); resetIsolation(); }
-                else { pinned = d; showValueLabel(d); isolate(d); }
-            })
-            .on("touchstart", (ev,d)=>{ ev.preventDefault(); showPoint(ev,d); })
-            .on("touchend", ()=>{ leavePoint(); });
+            .on("click", (ev, d)=>{ if (pinned === d){ pinned=null; valueLabelG.style("opacity",0); } else { pinned=d; showValueLabel(d);} });
 
         // legend
         const dom = color.domain(), Lh = 140;
@@ -321,33 +290,34 @@
         legend.append("text").attr("x",22).attr("y",22).text(dom[1].toFixed(2));
         legend.append("text").attr("x",22).attr("y",Lh+14).text(dom[0].toFixed(2));
 
-        // rectangle brush (kept)
+        // brush
         const brush = d3.brush()
             .extent([[0,0],[side,triH]])
             .on("start brush end", ({selection})=>{
                 if(!selection){
-                    resetIsolation(); updateShimmerIntensity(d3.mean(pts, d=>d.sev) || 0.3);
                     if(window.applyTriangleSelection) window.applyTriangleSelection(null);
-                    updateStats(null); return;
+                    document.getElementById("ts-n").textContent="0";
+                    document.getElementById("ts-mean").textContent="—";
+                    return;
                 }
                 const [[x0,y0],[x1,y1]] = selection;
                 const chosen = pts.filter(p=>p.x>=x0 && p.x<=x1 && p.y>=y0 && p.y<=y1);
                 dots.attr("opacity", d => (d.x>=x0 && d.x<=x1 && d.y>=y0 && d.y<=y1) ? 1 : 0.15);
-                const meanSev = chosen.length ? d3.mean(chosen, d=>d.sev) : (d3.mean(pts, d=>d.sev) || 0.3);
-                updateShimmerIntensity(meanSev);
                 if(window.applyTriangleSelection) window.applyTriangleSelection(chosen.map(d=>d.row));
-                updateStats(chosen);
+                document.getElementById("ts-n").textContent = chosen.length;
+                document.getElementById("ts-mean").textContent = chosen.length ? ("mean severity: " + d3.mean(chosen, d=>d.sev).toFixed(2)) : "—";
             });
         g.append("g").attr("class","brush").call(brush);
 
         svg.on("dblclick", ()=>{
             g.select(".brush").call(brush.move, null);
-            resetIsolation(); updateShimmerIntensity(d3.mean(pts, d=>d.sev) || 0.3);
+            dots.attr("opacity", 0.9);
             if(window.applyTriangleSelection) window.applyTriangleSelection(null);
-            updateStats(null);
+            document.getElementById("ts-n").textContent="0";
+            document.getElementById("ts-mean").textContent="—";
         });
 
-        // ----- LASSO (Shift+drag) ----- //
+        // lasso (Shift+drag)
         const lassoG = g.append("g").attr("class","lasso");
         let lActive=false, lPoints=[];
         function drawLasso(){
@@ -356,12 +326,10 @@
             path.moveTo(lPoints[0][0], lPoints[0][1]);
             for (let i=1;i<lPoints.length;i++) path.lineTo(lPoints[i][0], lPoints[i][1]);
             path.closePath();
-            const dstr = path.toString();
             const shape = lassoG.selectAll("path").data([null]);
-            shape.join("path").attr("d", dstr).attr("fill","rgba(166,106,43,0.12)").attr("stroke","#a66a2b").attr("stroke-width",2);
+            shape.join("path").attr("d", path.toString()).attr("fill","rgba(166,106,43,0.12)").attr("stroke","#a66a2b").attr("stroke-width",2);
         }
         function polygonContains(poly, x, y){
-            // ray casting
             let inside=false;
             for(let i=0, j=poly.length-1; i<poly.length; j=i++){
                 const xi=poly[i][0], yi=poly[i][1], xj=poly[j][0], yj=poly[j][1];
@@ -370,75 +338,53 @@
             }
             return inside;
         }
-        svg.on("mousedown", (ev)=>{
-            if (!ev.shiftKey) return;
-            const [mx,my] = d3.pointer(ev, g.node());
-            lActive=true; lPoints=[[mx,my]]; drawLasso();
-        });
-        svg.on("mousemove", (ev)=>{
-            if (!lActive) return;
-            const [mx,my] = d3.pointer(ev, g.node());
-            lPoints.push([mx,my]); drawLasso();
-        });
+        svg.on("mousedown", (ev)=>{ if (!ev.shiftKey) return; const [mx,my] = d3.pointer(ev, g.node()); lActive=true; lPoints=[[mx,my]]; drawLasso(); });
+        svg.on("mousemove", (ev)=>{ if (!lActive) return; const [mx,my] = d3.pointer(ev, g.node()); lPoints.push([mx,my]); drawLasso(); });
         svg.on("mouseup", (ev)=>{
-            if (!lActive) return;
-            lActive=false;
+            if (!lActive) return; lActive=false;
             const poly = lPoints.slice(); lPoints=[]; lassoG.selectAll("*").remove();
             const chosen = pts.filter(p => polygonContains(poly, p.x, p.y));
             if (chosen.length){
                 dots.attr("opacity", d => chosen.includes(d) ? 1 : 0.12);
-                updateShimmerIntensity(d3.mean(chosen, d=>d.sev));
                 if(window.applyTriangleSelection) window.applyTriangleSelection(chosen.map(d=>d.row));
-                updateStats(chosen);
+                document.getElementById("ts-n").textContent = chosen.length;
+                document.getElementById("ts-mean").textContent = "mean severity: " + d3.mean(chosen, d=>d.sev).toFixed(2);
             } else {
-                resetIsolation(); updateStats(null);
+                dots.attr("opacity", 0.9);
+                document.getElementById("ts-n").textContent="0";
+                document.getElementById("ts-mean").textContent="—";
             }
         });
 
-        // ----- Heatmap toggle (contour density) ----- //
+        // heatmap toggle
         const heatG = g.append("g").attr("class","heat").style("opacity",0);
         function renderHeat(){
-            const density = d3.contourDensity()
-                .x(d=>d.x).y(d=>d.y)
-                .weight(d=>d.sev*1.2 + 0.4) // emphasize severity
-                .size([side, triH]).bandwidth(22)(pts);
+            const density = d3.contourDensity().x(d=>d.x).y(d=>d.y).weight(d=>d.sev*1.2 + 0.4).size([side, triH]).bandwidth(22)(pts);
             const cScale = d3.scaleLinear().domain(d3.extent(density, d=>d.value)).range([0.1, 0.45]);
-            heatG.selectAll("path").data(density).join("path")
-                .attr("d", d3.geoPath())
-                .attr("fill", (d,i)=> d3.interpolateWarm(i/density.length))
-                .attr("opacity", d=>cScale(d.value))
-                .attr("stroke","none");
-            // clip to triangle
-            heatG.attr("clip-path", null);
+            heatG.selectAll("path").data(density).join("path").attr("d", d3.geoPath())
+                .attr("fill", (d,i)=> d3.interpolateWarm(i/density.length)).attr("opacity", d=>cScale(d.value)).attr("stroke","none");
             const clip = defs.append("clipPath").attr("id","triClip");
             clip.append("path").attr("d", d3.path(p => { p.moveTo(...A); p.lineTo(...B); p.lineTo(...C); p.closePath(); }).toString());
             heatG.attr("clip-path","url(#triClip)");
         }
         let heatOn=false;
-        function toggleHeat(){
-            if (!heatOn){ renderHeat(); heatG.transition().duration(250).style("opacity",1); heatOn=true; }
-            else { heatG.transition().duration(200).style("opacity",0).on("end", ()=>heatG.selectAll("*").remove()); heatOn=false; }
-        }
-
-        // wire tool buttons
-        document.getElementById("tri-clear").onclick = () => {
-            g.select(".brush").call(brush.move, null);
-            pinned=null; valueLabelG.style("opacity",0);
-            resetIsolation();
-            updateShimmerIntensity(d3.mean(pts, d=>d.sev) || 0.3);
-            if(window.applyTriangleSelection) window.applyTriangleSelection(null);
-            updateStats(null);
-        };
+        function toggleHeat(){ if (!heatOn){ renderHeat(); heatG.transition().duration(250).style("opacity",1); heatOn=true; }
+        else { heatG.transition().duration(200).style("opacity",0).on("end", ()=>heatG.selectAll("*").remove()); heatOn=false; } }
+        document.getElementById("tri-clear").onclick = () => { g.select(".brush").call(brush.move, null); dots.attr("opacity",0.9);
+            if(window.applyTriangleSelection) window.applyTriangleSelection(null); document.getElementById("ts-n").textContent="0"; document.getElementById("ts-mean").textContent="—"; };
         document.getElementById("tri-heat").onclick = toggleHeat;
 
-        // --- Guided narrative overlay (unchanged text + minor note) ---
+        // bring overlays to top (append again at end)
+        ["tri-insight-overlay","tri-tools","tri-stats"].forEach(id=>{
+            const el = document.getElementById(id); if (el) container.appendChild(el);
+        });
+
+        // guided steps text
         const overlay = document.getElementById("tri-insight-overlay");
         const label = overlay.querySelector(".label");
         const nextBtn = document.getElementById("tri-next");
-
         const sevVals = pts.map(p=>p.sev).sort(d3.ascending);
         const sev70 = d3.quantile(sevVals, 0.70) || (dom[0] + 0.7*(dom[1]-dom[0]));
-
         const steps = [
             { text: "Step 1 — Triangle maps proportions: each point = (%Stress, %Anxiety, %Depression).", filter: null },
             { text: "Step 2 — Cluster along the Stress–Anxiety edge: emotions co-move.", filter: p => (p.s + p.a) > p.d },
@@ -450,19 +396,10 @@
             if (i < 0) return;
             const st = steps[i];
             label.textContent = "Triangle tour: " + st.text;
-            if (!st.filter){
-                dots.transition().duration(300).attr("opacity", 0.9);
-                updateShimmerIntensity(d3.mean(pts, d=>d.sev) || 0.3);
-                return;
-            }
+            if (!st.filter){ dots.transition().duration(300).attr("opacity", 0.9); return; }
             dots.transition().duration(300).attr("opacity", d => st.filter(d) ? 1 : 0.12);
-            const shown = pts.filter(st.filter);
-            if (shown.length) updateShimmerIntensity(d3.mean(shown, d=>d.sev));
         }
         nextBtn.onclick = () => { idx = (idx + 1) % steps.length; applyStep(idx); };
-
-        // expose
-        window.__trianglePoints = pts;
     }
 
     window.renderTriangle = renderTriangle;
