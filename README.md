@@ -38,6 +38,17 @@ A botanical metaphor that visualizes stress by coping mechanism.
 - **Color intensity** → frequency of students reporting that strategy.  
 - Includes an insight overlay with sequential messages guiding user exploration.
 
+### 3. Classroom of Stress
+**File:** `classroom.js`  
+This visualization presents a pictograph of students across 16 different majors, showing the distribution of stress levels in a classroom style layout. Each stick figure represents a major, and its colour encodes the average stress level:
+Light Blue - Low Stress
+Orange - Moderate Stress
+Red - High Stress
+
+By hovering over a stick figure, viewers can see additional demographic information about that major which includes, major, average stress level, average age, gender
+The visualization includes a legend that clarifies the colour coding. The goal is to provide a quick, intuitive view of stress patterns across different fields of study, allowing comparison between majors.
+
+
 ---
 
 ## 🧮 Data
