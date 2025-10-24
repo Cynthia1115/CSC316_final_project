@@ -83,17 +83,6 @@ A pictograph layout representing students across **16 different majors**, colore
 - Hover tooltips reveal demographic info (major, year, average stress).
 - **Insight:** stress distribution is **widespread and cross-disciplinary**, not isolated to any one field.
 
-### 3. Classroom of Stress
-**File:** `classroom.js`  
-A pictograph of students across 16 different majors, showing the distribution of stress levels in a classroom-style layout.
-- Each stick figure represents a major.
-- Color encodes average stress level:
-  - Light Blue -> Low Stress
-  - Orange -> Moderate Stress
-  - Red -> High Stress
-- Hovering over a stick figure shows additional demographic information: major, average stress level, average age, gender.
-
-
 
 ---
 
