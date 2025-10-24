@@ -172,7 +172,49 @@
                 <li>Planned: filter by major / year; linked highlight with triangle</li>
             </ul>
         </div>
+
+
+        <!-- (E) Coping Strategy Garden (interactive) -->
+        <div class="panel">
+            <h3 class="section-title">Novel Vis: Coping Strategy Garden</h3>
+            <p class="muted">
+                Each flower = a coping behavior. <strong>Stem height</strong> = lower average stress (taller = better).
+                Leaf/petal color hints at frequency. Flower size ≈ average exercise hours. Healthy, active strategies grow tall;
+                passive habits stay short. <span class="muted">:contentReference[oai:cite:13]{index=13}</span>
+            </p>
+            <div class="visbox">
+                <div id="garden-vis" class="visblock"></div>
+            </div>
+            <ul class="bullets muted">
+                <li>Hover tooltips ✓</li>
+                <li>Click stem to pin stress value ✓</li>
+                <li>Planned: filter by major / year; linked highlight with triangle</li>
+            </ul>
+        </div>
+
+
+        <!-- (F) Balance Map — Radar (Spider) Chart -->
+        <div class="panel">
+        <h3 class="section-title">Stick Figure Map with Spiderchart</h3>
+        <p class="muted">
+            The stick figures roam until a metric is selected, upon which they cluster according to the given metric.
+            Hovering over an individual stick figure reveals a radar chart that displays the stress, sleep, exercise, 
+            depression and anxiety data we have for that individual.
+        <div class="visbox">
+            <div id="radar-vis" class="visblock"></div>
+        </div>
+        <ul class="bullets muted">
+                <li>Hover Spiderchart completed</li>
+                <li>Organizing stick figures by different metrics completed</li>
+                <li>Planned: colour each individual stick figure based on their stress level. Currently random colour between green and red</li>
+                <li>Planned: more interactive visualizations</li>
+                
+            </ul>
+        </div>
+
     </section>
+
+
 
     <!-- MAIN MESSAGES -->
     <section id="messages" class="wrap">
@@ -224,6 +266,7 @@
 <script src="js/utils.js"></script>
 <script src="js/ternary.js"></script>
 <script src="js/garden.js"></script>
+<script src="js/radar_avatars.js"></script>
 <script src="js/main.js"></script>
 
 <script>
