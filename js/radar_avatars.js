@@ -61,9 +61,9 @@
         return [
             { label: "Sleep (hrs)", v: norm.sleep(toNum(r[S.sleep])) },
             { label: "Exercise (hrs/wk)", v: norm.ex(toNum(r[S.exercise])) },
-            { label: "Low Anxiety", v: norm.anx(toNum(r[S.anxiety])) },
-            { label: "Low Depression", v: norm.dep(toNum(r[S.depression])) },
-            { label: "Low Stress", v: norm.str(toNum(r[S.stress])) },
+            { label: "Anxiety", v: norm.anx(toNum(r[S.anxiety])) },
+            { label: "Depression", v: norm.dep(toNum(r[S.depression])) },
+            { label: "Stress", v: norm.str(toNum(r[S.stress])) },
         ];
     }
 
