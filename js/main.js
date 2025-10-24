@@ -28,6 +28,7 @@
     if (window.renderTriangle) window.renderTriangle(data);
     if (window.renderGarden) window.renderGarden(data);
     if (window.renderAvatar) window.renderAvatar(data);
+    if (window.renderClassroom) window.renderClassroom(data);
 
     // --- enhancements: filters + simple simulator ---
     function firstKey(rows, options) {
@@ -161,7 +162,6 @@
         );
         if (window.renderTriangle) window.renderTriangle(subset);
         if (window.renderGarden) window.renderGarden(subset);
-        if (window.renderAvatar) window.renderAvatar(subset);
     }
     // --- end enhancements ---
 

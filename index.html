@@ -113,15 +113,32 @@
         </div>
         <div class="spacer"></div>
 
-        <!-- (A) Classroom of Stress – placeholder card to match your layout -->
-        <div class="panel">
-            <h3 class="section-title">Classroom of Stress</h3>
-            <p class="muted">
-                Pictograph of students colored by stress category (low / moderate / high); filter by major / year (planned).
-                Shows that stress is widespread, not isolated.
-                <span class="muted">:contentReference[oai:cite:10]{index=10}</span>
-            </p>
+    <!-- Classroom panel -->
+    <div class="panel">
+        <h3 class="section-title">Classroom of Stress</h3>
+        <p class="muted">
+            Pictograph of students colored by stress category (low / moderate / high); filter by major / year (planned).
+            Shows that stress is widespread, not isolated.
+            <span class="muted">:contentReference[oai:cite:10]{index=10}</span>
+        </p>
+        <div class="visbox">
+            <div id="classroom-vis" style="width:100%; height:600px; border:1px solid #ccc;"></div>
         </div>
+    </div>
+
+    <!-- Tooltip div -->
+    <div id="tooltip" style="
+        position: absolute;
+        pointer-events: none;
+        background: rgba(0,0,0,0.85);
+        color: white;
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        display: none;
+        z-index: 10;
+    "></div>
+
 
         <div class="spacer"></div>
 
@@ -267,6 +284,7 @@
 <script src="js/ternary.js"></script>
 <script src="js/garden.js"></script>
 <script src="js/radar_avatars.js"></script>
+<script src="js/classroom.js"></script>
 <script src="js/main.js"></script>
 
 <script>
