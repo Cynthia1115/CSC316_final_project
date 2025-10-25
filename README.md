@@ -21,22 +21,68 @@ The visualization aims to make complex mental-health correlations accessible, al
 
 ## 🧩 Visualizations Implemented
 
-### 1. Emotion Constellation Triangle *(Novel Design)*
+### 1. 🔺 Emotion Constellation Triangle *(Novel Design)*
 **File:** `ternary.js`  
-A ternary plot that maps each student’s normalized Stress, Anxiety, and Depression scores within a triangular space.  
-- **Color** encodes combined emotional severity.  
-- **Radius** scales by intensity.  
-- Linked to the “Coping Garden”: selecting or highlighting coping categories dims unrelated dots.  
-- Includes a guided *tour overlay* explaining interpretation steps.
+A ternary plot mapping each student’s normalized **Stress (PSS-10)**, **Anxiety (GAD-7)**, and **Depression (PHQ-9)** scores within a triangular coordinate space.
+- **Color** encodes combined emotional severity (yellow = high, purple = low).
+- **Position** shows each student’s emotional balance.
+- **Interaction:** hover tooltips and toggles for heatmap view.
+- **Planned:** lasso selection linking subsets to the Coping Garden.
+- **Insight:** clear co-movement of stress, anxiety, and depression indicates emotional clustering.
 
-### 2. Coping Strategy Garden
+---
+
+### 2. 🌼 Coping Strategy Garden
 **File:** `garden.js`  
-A botanical metaphor that visualizes stress by coping mechanism.  
-- Each “flower” represents a coping strategy.  
-- **Stem height** → lower average stress = taller stem.  
-- **Petal size** → average exercise hours per week.  
-- **Color intensity** → frequency of students reporting that strategy.  
-- Includes an insight overlay with sequential messages guiding user exploration.
+A botanical metaphor visualizing stress outcomes by coping behavior.
+- Each **flower** represents one coping strategy.
+- **Stem height** → lower average stress = taller flower.
+- **Petal color** → frequency of students using that strategy.
+- **Flower size** → average exercise hours.
+- **Interactive features:** hover tooltips, click to pin average stress values.
+- **Planned:** filters for major/year and linked highlighting from the triangle view.
+- **Insight:** healthy, active habits (exercise, socializing) grow tall and bright; passive ones stay short and muted.
+
+---
+
+### 3. 🌙 Sleep Orbit Map — Slider Prototype
+**File:** `sleep_orbit.js`  
+A circular, time-based visualization exploring the relationship between **sleep timing** and **stress**.
+- Users adjust three sliders: **in bed**, **asleep**, and **wake**.
+- The **arc length** represents total sleep duration.
+- A **floating chip** displays a predicted stress score (lower = better).
+- **Design origin:** inspired by a hand-drawn sketch prototype.
+- **Insight:** optimal stress levels cluster around 7–8 hours of sleep near midnight.
+
+---
+
+### 4. 🧍‍♀️ Stick Figure Map with Spiderchart
+**File:** `radar_avatars.js`  
+An animated environment where each student is represented as a **stick-figure avatar** tied to their wellness profile.
+- Figures **roam randomly** until a metric (e.g., sleep, exercise, severity) is selected.
+- On selection, figures **cluster dynamically** based on that variable.
+- Hovering reveals a **radar (spider) chart** showing:
+    - Stress
+    - Sleep
+    - Exercise
+    - Depression
+    - Anxiety
+- **Planned:** color-code avatars by stress level and link them with other visualizations.
+- **Insight:** humanizes data — students are no longer points, but individuals with multidimensional traits.
+
+---
+
+### 5. 🧑‍🏫 Classroom of Stress
+**File:** `classroom.js`  
+A pictograph layout representing students across **16 different majors**, colored by stress level.
+- Each stick figure = one major.
+- **Color legend:**
+    - Light Blue → Low Stress
+    - Orange → Moderate Stress
+    - Red → High Stress
+- Hover tooltips reveal demographic info (major, year, average stress).
+- **Insight:** stress distribution is **widespread and cross-disciplinary**, not isolated to any one field.
+
 
 ---
 
