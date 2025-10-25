@@ -27,6 +27,7 @@
 
     if (window.renderTriangle) window.renderTriangle(data);
     if (window.renderGarden) window.renderGarden(data);
+    if (window.renderSleepOrbit) window.renderSleepOrbit(data);
 
 // --- enhancements: filters + simple simulator ---
     function firstKey(rows, options){
