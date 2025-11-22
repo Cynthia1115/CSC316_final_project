@@ -8,124 +8,123 @@
     <!-- Theme -->
     <link rel="stylesheet" href="css/style.css" />
 
-    <!-- D3 must load BEFORE our vis scripts -->
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 
-    <!-- Lightweight layout styles to match your screenshots (won’t alter colors) -->
-    <style>
-        :root { --wrap: 1200px; --radius: 14px; --panel-bg: rgba(255,255,255,0.45); }
-        .wrap { max-width: var(--wrap); margin: 0 auto; padding: 1.25rem 1rem; }
-        .page-title { margin: 0 0 .25rem 0; }
-        .subtitle { margin: 0 0 .5rem 0; opacity: .85; font-weight: 600; }
-        .inline-nav a { margin-right: .75rem; text-decoration: underline; cursor: pointer; }
-        .panel { background: var(--panel-bg); border-radius: var(--radius); padding: 1rem 1.25rem; box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset; }
-        .panel.soft { padding: .9rem 1rem; }
-        .section-title { margin: 0 0 .35rem 0; }
-        .visbox { background: rgba(255,255,255,0.35); border-radius: var(--radius); padding: .75rem; }
-        .visblock { min-height: 520px; }
-        .muted { opacity: .82; }
-        .bullets { margin: .5rem 0 0 0; padding-left: 1.1rem; }
-        .site-footer { text-align: center; opacity: .75; padding: 1.5rem 0 2rem; }
-        .spacer { height: 10px; }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.20/fullpage.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.20/fullpage.min.js"></script>
+
 </head>
 
 <body>
-<!-- Header -->
-<header class="wrap">
-    <h1 class="page-title">Balancing the Student Life</h1>
-    <button id="themeToggle" class="btn" style="float:right">Night Mode</button>
-    <div class="subtitle">Week 8 — Prototype V2</div>
-    <nav class="inline-nav">
-        <a href="#hook">Hook</a>
-        <a href="#insights">Rising Insights</a>
-        <a href="#messages">Main Messages</a>
-        <a href="#solution">Solution</a>
-    </nav>
-</header>
 
 
-<!-- CONTROLS (Filters + Simulator) -->
-<section id="controls" class="wrap">
-    <div class="panel">
-        
-        <h2 class="section-title">Explore Controls</h2>
-        <p>Filter the proceeding visualizations by demographic groups for more fine tuned analysis.</p>
-        <div style="display:flex; flex-wrap:wrap; gap:14px; align-items:flex-end;">
-            <!-- Filters -->
-            <div>
-                <div style="font-weight:700; margin-bottom:6px;">Filters</div>
-                <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                    <label style="display:flex; flex-direction:column; gap:4px;">
-                        <span class="muted">Year</span>
-                        <select id="fYear"><option value="">All</option></select>
-                    </label>
-                    <label style="display:flex; flex-direction:column; gap:4px;">
-                        <span class="muted">Major</span>
-                        <select id="fMajor"><option value="">All</option></select>
-                    </label>
-                    <label style="display:flex; flex-direction:column; gap:4px;">
-                        <span class="muted">Gender</span>
-                        <select id="fGender"><option value="">All</option></select>
-                    </label>
-                    <button id="clearFilters" type="button" style="margin-left:6px;">Clear</button>
+<div id="vis-control-panel">
+    <h3></h3>
+    <div id="panel-content"></div>
+</div>
+<button id="vis-control-toggle">Filters</button>
+
+<div id="fullpage">
+
+<!-- Slide 1 Title -->
+<div class="section title-section">
+    <div class="title-content">
+        <h2 class="presents">Stressly presents</h2>
+        <h1 class="main-title">Balancing the Student Life</h1>
+        <button id="themeToggle" class="btn theme-btn">Night Mode</button>
+    </div>
+</div>
+
+
+<div>
+    <section id="controls" class="wrap">
+        <div class="panel">
+            <h2 class="section-title">Explore Controls</h2>
+            <p>Filter the proceeding visualizations by demographic groups for more fine tuned analysis.</p>
+            <div style="display:flex; flex-wrap:wrap; gap:14px; align-items:flex-end;">
+
+                <div>
+                    <div style="font-weight:700; margin-bottom:6px;">Filters</div>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                        <label style="display:flex; flex-direction:column; gap:4px;">
+                            <span class="muted">Year</span>
+                            <select id="fYear"><option value="">All</option></select>
+                        </label>
+                        <label style="display:flex; flex-direction:column; gap:4px;">
+                            <span class="muted">Major</span>
+                            <select id="fMajor"><option value="">All</option></select>
+                        </label>
+                        <label style="display:flex; flex-direction:column; gap:4px;">
+                            <span class="muted">Gender</span>
+                            <select id="fGender"><option value="">All</option></select>
+                        </label>
+                        <button id="clearFilters" type="button" style="margin-left:6px;">Clear</button>
+                    </div>
                 </div>
-            </div>
-            <!-- Simulator -->
-            <div style="flex:1; min-width:280px;">
-                <div style="font-weight:700; margin-bottom:6px;">Quick Simulator (prototype)</div>
-                <div style="display:grid; grid-template-columns: 160px 1fr auto; gap:8px; align-items:center;">
-                    <div class="muted">Sleep hours</div>
-                    <input id="simSleep" type="range" min="4" max="10" step="0.5" value="7.5">
-                    <div id="simSleepVal" class="muted">7.5</div>
-                    <div class="muted">Exercise hrs/wk</div>
-                    <input id="simEx" type="range" min="0" max="14" step="1" value="3">
-                    <div id="simExVal" class="muted">3</div>
-                    <div class="muted">Coping</div>
-                    <select id="simCoping"><option value="">(auto from data)</option></select>
-                    <div id="simOut" style="font-weight:700;">Predicted stress: —</div>
+
+                <div style="flex:1; min-width:280px;">
+                    <div style="font-weight:700; margin-bottom:6px;">Quick Simulator (prototype)</div>
+                    <div style="display:grid; grid-template-columns: 160px 1fr auto; gap:8px; align-items:center;">
+                        <div class="muted">Sleep hours</div>
+                        <input id="simSleep" type="range" min="4" max="10" step="0.5" value="7.5">
+                        <div id="simSleepVal" class="muted">7.5</div>
+
+                        <div class="muted">Exercise hrs/wk</div>
+                        <input id="simEx" type="range" min="0" max="14" step="1" value="3">
+                        <div id="simExVal" class="muted">3</div>
+
+                        <div class="muted">Coping</div>
+                        <select id="simCoping"><option value="">(auto based on data)</option></select>
+
+                        <div id="simOut" style="font-weight:700;">Predicted stress: —</div>
+                    </div>
                 </div>
+
             </div>
         </div>
-    </div>
-</section>
+    </section>
+</div>
 
-
-<main>
-
-    <!-- HOOK -->
+<!-- Slide 2 Hook -->
+<div class="section">
     <section id="hook" class="wrap">
-        <h2 class="section-title">Hook — The Student Spiral</h2>
+        <h3>Intro</h3>
         <div class="panel">
             <p class="muted">
-                Every student knows the pattern — less sleep, more caffeine, higher stress. What does the data actually say
-                about how our daily choices connect to stress, anxiety, and depression?
+                Welcome to Stressly’s “Balancing the Student Life” prototype.
+This interactive visualization explores how students manage the everyday pressures of academics, work, routines, and personal wellbeing. Each section highlights real patterns and experiences, showing how different activities, responsibilities, and stressors shape a student’s day-to-day life.
+Use the controls to navigate, explore data, and gain insight into how balance and imbalance emerges in the student lifestyle.
+
             </p>
         </div>
     </section>
+</div>
 
-    <!-- RISING INSIGHTS -->
+<!-- Slide 3  Description for Classroom of Stress and SpiderChart -->
+<div class="section">
+    <section id="hook" class="wrap">
+        
+        <div class="panel">
+            <p class="muted">
+                The next two visualizations explore student stress and well-being. The Classroom of Stress shows how stress levels vary by year, major, and gender, while the Stick Figure Map with RadarMaps lets you examine individual students’ wellness profiles across multiple dimensions. Together, they highlight both overall patterns and personal variation in student experiences.
+            </p>
+        </div>
+    </section>
+</div>
+
+
+<!-- SLIDE 4 — CLASSROOM VIS -->
+<div class="section">
     <section id="insights" class="wrap">
-        <h2 class="section-title">Rising Insights — What the Data Reveal</h2>
-
-        <div class="panel soft muted">
-            Four creative views reveal patterns across sleep, emotions, coping, and demographics.
+        <div class="panel">
+            <h3 class="section-title">Classroom of Stress</h3>
+            <p class="muted">Pictograph of students colored by stress category.</p>
+            <div class="visbox">
+                <div id="classroom-vis" style="width:100%; height:600px; border:1px solid #ccc;"></div>
+            </div>
         </div>
-        <div class="spacer"></div>
+    </section>
 
-    <!-- Classroom panel -->
-    <div class="panel">
-        <h3 class="section-title">Classroom of Stress</h3>
-        <p class="muted">
-            Pictograph of students colored by stress category (low / moderate / high); filter by major / year (planned).
-            Shows that stress is widespread, not isolated.
-        </p>
-        <div class="visbox">
-            <div id="classroom-vis" style="width:100%; height:600px; border:1px solid #ccc;"></div>
-        </div>
-    </div>
-
-    <!-- Tooltip div -->
     <div id="tooltip" style="
         position: absolute;
         pointer-events: none;
@@ -137,136 +136,158 @@
         display: none;
         z-index: 10;
     "></div>
+</div>
 
 
-        <div class="spacer"></div>
 
-        <!-- (B) Sleep Orbit Map – placeholder card to match your layout -->
+<!--SLIDE 5 — Spiderchart -->
+<div class="section">
+    <section class="wrap">
+        <div class="panel">
+            <h3 class="section-title">Stick Figure Map with Spiderchart</h3>
+            <p class="muted">Hover a figure → see student stress profile.</p>
+            <div class="visbox">
+                <div id="radar-vis" class="visblock"></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<!-- Slide 6  Description for sleep orbit -->
+<div class="section">
+    <section id="hook" class="wrap">
+        
+        <div class="panel">
+            <p class="muted">
+                The Sleep Orbit Map lets you explore how sleep habits relate to stress. By adjusting the sliders for time in bed, time asleep, and wake-up time, you can see how different sleep patterns affect predicted stress levels.
+            </p>
+        </div>
+    </section>
+</div>
+
+
+<!--SLIDE 7 — SLEEP ORBIT-->
+<div class="section">
+    <section class="wrap">
         <div class="panel">
             <h3 class="section-title">Sleep Orbit Map (Novel)</h3>
             <div class="visbox">
                 <div id="sleep-orbit-vis">
-                   <div id="sleep-orbit-inputs" style="text-align: center;">
+                    <div id="sleep-orbit-inputs" style="text-align: center;">
                         <input type="range" id="sleep-orbit-time-in-bed" min="0" max="16" step="0.5" value="3">
-                        <label for="sleep-orbit-time-in-bed">Time in Bed</label>
+                        <label>Time in Bed</label>
+
                         <input type="range" id="sleep-orbit-sleep-start-time" min="0" max="16" step="0.5" value="3.5">
-                        <label for="sleep-orbit-sleep-start-time">Sleep Start Time</label>
+                        <label>Sleep Start Time</label>
+
                         <input type="range" id="sleep-orbit-wake-up-time" min="0" max="16" step="0.5" value="10.5">
-                        <label for="sleep-orbit-wake-up-time">Wake Up Time</label>
-                    </div> 
+                        <label>Wake Up Time</label>
+                    </div>
                 </div>
-                
             </div>
+
+            <p class="muted">Sections are awake time, time to fall asleep, sleep, and wake up.</p>
+        </div>
+    </section>
+</div>
+
+
+
+<!-- Slide 8 Description for Triangle-->
+<div class="section">
+    <section id="hook" class="wrap">
+        
+        <div class="panel">
             <p class="muted">
-                Sections are awake time, time to fall asleep, sleep, and wake up. Various stats are shown and adjust as you move the sliders to simulate different sleep patterns.
+                The Emotion Constellation Triangle shows how students feel in terms of stress, anxiety, and depression. Each dot represents a student, with its position and color showing how balanced or severe their emotional state is. This helps users see patterns and groups of students with similar emotional experiences.
             </p>
         </div>
+    </section>
+</div>
 
-        <div class="spacer"></div>
 
-        <!-- (C) Emotion Constellation Triangle (interactive) -->
+
+
+<!--SLIDE 9 — TRIANGLE -->
+<div class="section">
+    <section class="wrap">
         <div class="panel">
             <h3 class="section-title">Emotion Constellation Triangle</h3>
-            <p class="muted">
-                Each dot positions a student by normalized <strong>Stress (PSS-10)</strong>, <strong>Anxiety (GAD-7)</strong>,
-                and <strong>Depression (PHQ-9)</strong>. Color encodes combined severity. Strong co-movement suggests these
-                emotions cluster together.
-            </p>
+            <p class="muted">Each dot positions a student by normalized Stress, Anxiety, and Depression.</p>
             <div class="visbox">
                 <div id="triangle-vis" class="visblock"></div>
             </div>
-            <ul class="bullets muted">
-                <li>Planned: brush a cluster → dim unrelated plants in the Garden (linked view).</li>
-            </ul>
         </div>
+    </section>
+</div>
 
-        <div class="spacer"></div>
 
-        <!-- (D) Coping Strategy Garden (interactive) -->
+<!-- Slide 10 Description for Garden-->
+<div class="section">
+    <section id="hook" class="wrap">
+        
         <div class="panel">
-            <h3 class="section-title">Novel Vis: Coping Strategy Garden</h3>
             <p class="muted">
-                Each flower = a coping behavior. <strong>Stem height</strong> = lower average stress (taller = better).
-                Leaf/petal color hints at frequency. Flower size ≈ average exercise hours. Healthy, active strategies grow tall;
-                passive habits stay short.
+                The Coping Strategy Garden shows how different coping behaviors relate to student stress.
             </p>
+        </div>
+    </section>
+</div>
+
+
+
+<!-- SLIDE 11 — GARDEN -->
+<div class="section">
+    <section class="wrap">
+        <div class="panel">
+            <h3 class="section-title">Coping Strategy Garden</h3>
+            <p class="muted">Each flower = a coping strategy. Height = stress reduction.</p>
             <div class="visbox">
                 <div id="garden-vis" class="visblock"></div>
             </div>
-            <ul class="bullets muted">
-                <li>Hover tooltips ✓</li>
-                <li>Click stem to pin stress value ✓</li>
-                <li>Planned: filter by major / year; linked highlight with triangle</li>
-            </ul>
         </div>
-
-
-        <!-- (F) Balance Map — Radar (Spider) Chart -->
-        <div class="panel">
-        <h3 class="section-title">Stick Figure Map with Spiderchart</h3>
-        <p class="muted">
-            The stick figures roam until a metric is selected, upon which they cluster according to the given metric.
-            Hovering over an individual stick figure reveals a radar chart that displays the stress, sleep, exercise, 
-            depression and anxiety data we have for that individual.
-        <div class="visbox">
-            <div id="radar-vis" class="visblock"></div>
-        </div>
-        <ul class="bullets muted">
-                <li>Hover Spiderchart completed</li>
-                <li>Organizing stick figures by different metrics completed</li>
-                <li>Planned: colour each individual stick figure based on their stress level. Currently random colour between green and red</li>
-                <li>Planned: more interactive visualizations</li>
-                
-            </ul>
-        </div>
-
     </section>
+</div>
 
-
-
-    <!-- MAIN MESSAGES -->
+<!-- SLIDE 12 — MAIN MESSAGES -->
+<div class="section">
     <section id="messages" class="wrap">
         <h2 class="section-title">Main Messages</h2>
-
         <div class="panel">
             <h3 class="section-title">Balance Is Measurable</h3>
-            <p class="muted">
-                Lifestyle choices (sleep, exercise, coping strategies) are directly linked to stress and mental health —
-                the visuals above quantify these links.
-            </p>
-            <p class="muted">
-                Planned: small multiple radar “Balance Map” (sleep / social / health) per stress tier.
-            </p>
+            <p class="muted">Lifestyle choices connect directly to stress and mental health.</p>
         </div>
 
         <div class="spacer"></div>
 
         <div class="panel">
             <h3 class="section-title">Find Your Own Path to Well-Being</h3>
-            <p class="muted">
-                There isn’t a single fix. Students can explore the patterns and identify which habits (e.g., consistent sleep,
-                active coping) work best for them.
-            </p>
+            <p class="muted">Explore the patterns to discover what works for you.</p>
         </div>
     </section>
+</div>
 
-    <!-- SOLUTION -->
+<!-- SLIDE 13 — SOLUTION -->
+<div class="section">
     <section id="solution" class="wrap">
         <h2 class="section-title">Solution — Find Your Balance</h2>
         <div class="panel">
-            <p class="muted">
-                Try small adjustments and see predicted stress change. We’ll add a simple simulator next: move sliders for sleep,
-                study hours, and chosen coping → predicted stress & triangle highlight update.
-            </p>
+            <p class="muted">The simulator will show how lifestyle changes shift predicted stress.</p>
         </div>
     </section>
-</main>
+</div>
 
-<footer class="site-footer">
-    <p>© 2025 Team: Ayaan Asif · Cynthia Liu · Faraz Malik · Tahseen Rana</p>
-</footer>
+<!-- FOOTER -->
+<div class="section">
+    <footer class="wrap">
+        © 2025 Team: Ayaan Asif · Cynthia Liu · Faraz Malik · Tahseen Rana
+    </footer>
+</div>
 
-<!-- Scripts: keep order to preserve interactions you already have -->
+</div><!-- end fullpage -->
+
+<!-- SCRIPTS -->
 <script src="js/utils.js"></script>
 <script src="js/sleep-orbit.js"></script>
 <script src="js/ternary.js"></script>
@@ -275,20 +296,80 @@
 <script src="js/classroom.js"></script>
 <script src="js/main.js"></script>
 
+<!-- Theme toggle -->
 <script>
-    (function(){
-        const btn = document.getElementById('themeToggle');
-        if (!btn) return;
-        function setTheme(t){
-            document.documentElement.dataset.theme = t;
-            if (window.bus) bus.call('themeChange', null, t);
-            btn.textContent = (t === 'night') ? 'Day Mode' : 'Night Mode';
+(function(){
+    const btn = document.getElementById('themeToggle');
+    if (!btn) return;
+
+    function setTheme(t){
+        document.documentElement.dataset.theme = t;
+        if (window.bus) bus.call('themeChange', null, t);
+        btn.textContent = (t === 'night') ? 'Day Mode' : 'Night Mode';
+    }
+    btn.addEventListener('click', function(){
+        const cur = document.documentElement.dataset.theme === 'night' ? 'day' : 'night';
+        setTheme(cur);
+    });
+})();
+</script>
+
+<!--COLLAPSIBLE PANEL LOGIC -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const panel = document.getElementById("vis-control-panel");
+    const toggleBtn = document.getElementById("vis-control-toggle");
+    const panelContent = document.getElementById("panel-content");
+
+    // Move the controls into the sidebar panel
+    const originalControls = document.querySelector("#controls .panel");
+    if (originalControls) {
+        panelContent.appendChild(originalControls);
+    }
+
+    let currentSection = 0;
+
+    // Visualization slides indices (0-indexed)
+    const visSlides = [3, 4, 6, 8, 10];
+
+    function updateVisibility(index) {
+        if (visSlides.includes(index)) {
+            toggleBtn.classList.add("visible");
+        } else {
+            toggleBtn.classList.remove("visible");
+            closePanel();
         }
-        btn.addEventListener('click', function(){
-            const cur = document.documentElement.dataset.theme === 'night' ? 'day' : 'night';
-            setTheme(cur);
-        });
-    })();
+    }
+
+    function openPanel() {
+        panel.classList.add("open");
+        const active = document.querySelector(".section.active");
+        if (active) active.classList.add("panel-open");
+    }
+
+    function closePanel() {
+        panel.classList.remove("open");
+        const active = document.querySelector(".section.active");
+        if (active) active.classList.remove("panel-open");
+    }
+
+    toggleBtn.addEventListener("click", () => {
+        if (panel.classList.contains("open")) closePanel();
+        else openPanel();
+    });
+
+    // fullPage.js init
+    new fullpage('#fullpage', {
+        autoScrolling: true,
+        navigation: true,
+        scrollingSpeed: 850,
+        afterLoad: (origin, destination) => {
+            currentSection = destination.index;
+            updateVisibility(destination.index);
+        }
+    });
+});
 </script>
 
 </body>
