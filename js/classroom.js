@@ -200,6 +200,18 @@ function renderClassroom(data, filters = { year: "All", major: "All", gender: "A
         .attr("font-size", "14px")
         .attr("fill", "#333");
 
+    legend.selectAll(".count")
+        .data([0, 1, 2])
+        .enter()
+        .append("text")
+        .attr("class", "count")
+        .attr("x", legendX + 150)  // beside the labels
+        .attr("y", (d, i) => legendY + i * legendSpacing + 15)
+        .attr("font-size", "14px")
+        .attr("fill", "#333")
+        .text(d => getStressCountsFromFigures()[d]);
+
+
 }
 
 
@@ -218,7 +230,7 @@ function updateClassroom(filteredData) {
         .domain([0, 1, 2])
         .range(["lightblue", "orange", "red"]);
 
-    const totalFigures = d3.selectAll("#classroom-vis svg g").size();
+    const totalFigures = d3.selectAll("#classroom-vis svg g:not(.legend)").size();
 
     const stressDistribution = {
         0: Math.round(proportions[0] * totalFigures),
@@ -266,7 +278,25 @@ function updateClassroom(filteredData) {
             .attr("fill", colour);
     });
 
+    const counts = getStressCountsFromFigures();
+
+
+    d3.select("#classroom-vis svg")
+        .selectAll(".count")
+        .data([0, 1, 2])
+        .text(d => counts[d]);
+
 }
+
+function getStressCountsFromFigures() {
+    const counts = {0:0, 1:0, 2:0};
+    d3.selectAll("#classroom-vis svg g:not(.legend)").each(function() {
+        const d = d3.select(this).datum();
+        if (d && d.stress_level != null) counts[d.stress_level]++;
+    });
+    return counts;
+}
+
 
 
 renderClassroom(window.__FULL_ROWS__, { 
