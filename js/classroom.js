@@ -14,9 +14,9 @@ function renderClassroom(data, filters = { year: "All", major: "All", gender: "A
         let d = data[i % data.length];
         return {
             stress_level: d.stress_level ?? Math.floor(Math.random() * 3),
-            major: filters.major === "All" ? 
-                    (d.major ?? majors[Math.floor(Math.random() * majors.length)]) : 
-                    filters.major,
+            major: filters.major === "All" ?
+                (d.major ?? majors[Math.floor(Math.random() * majors.length)]) :
+                filters.major,
             age: d.age ?? Math.floor(Math.random() * 10 + 18),
             gender: filters.gender === "All"
                 ? (Math.random() < 0.5 ? "Male" : "Female")
@@ -48,11 +48,11 @@ function renderClassroom(data, filters = { year: "All", major: "All", gender: "A
     console.log("Averages per major:", averages);
 
     //layout
-    const padding = 20;
-    const headR = 12;
-    const bodyH = 24;
-    const armW = 16;
-    const legH = 18;
+    const padding = 24; // Increased
+    const headR = 14;   // Increased
+    const bodyH = 28;   // Increased
+    const armW = 18;    // Increased
+    const legH = 20;    // Increased
 
     const cols = Math.ceil(Math.sqrt(TOTAL));
     const rows = Math.ceil(TOTAL / cols);
@@ -62,8 +62,8 @@ function renderClassroom(data, filters = { year: "All", major: "All", gender: "A
     const height = rows * (headR * 2 + bodyH + legH + padding);
 
     const colourScale = d3.scaleOrdinal()
-                        .domain([0, 1, 2])
-                        .range(["lightblue", "orange", "red"]);
+        .domain([0, 1, 2])
+        .range(["lightblue", "orange", "red"]);
 
     d3.select("#classroom-vis").selectAll("*").remove();
 
@@ -112,7 +112,7 @@ function renderClassroom(data, filters = { year: "All", major: "All", gender: "A
             .attr("y2", headR + bodyH)
             .attr("stroke", colour)
             .attr("stroke-width", 6)
-            
+
 
         // Arms
         g.append("line")
@@ -141,7 +141,13 @@ function renderClassroom(data, filters = { year: "All", major: "All", gender: "A
             .attr("stroke-width", 6);
 
         //tooltip
-        g.on("mouseover", function(event) {
+        g.on("click", function (event) {
+            event.stopPropagation(); // Prevent bubbling
+
+            // Reset all other figures
+            svg.selectAll("g").style("opacity", 0.5);
+            d3.select(this).style("opacity", 1);
+
             const d = d3.select(this).datum();
             const { year, major, gender } = getCurrentFilters();
             const stressLabel = d.stress_level === 0 ? "Low" : d.stress_level === 1 ? "Moderate" : "High";
@@ -149,20 +155,25 @@ function renderClassroom(data, filters = { year: "All", major: "All", gender: "A
             const displayGender = gender === "All" ? d.gender : gender;
 
             tooltip.style("display", "block")
+                .style("position", "fixed")
+                .style("left", (event.clientX + 12) + "px")
+                .style("top", (event.clientY + 12) + "px")
                 .html(`
-                    <strong>Year:</strong> ${year}<br/>
-                    <strong>Major:</strong> ${major}<br/>
-                    <strong>Gender:</strong> ${displayGender}<br/>
-                    <strong>Stress Level:</strong> ${stressLabel}
+                    <div style="position:relative;">
+                        <strong>Year:</strong> ${year}<br/>
+                        <strong>Major:</strong> ${major}<br/>
+                        <strong>Gender:</strong> ${displayGender}<br/>
+                        <strong>Stress Level:</strong> ${stressLabel}
+                        <div style="font-size:0.8em; color:#666; margin-top:4px;">(Click elsewhere to close)</div>
+                    </div>
                 `);
-        })
-        .on("mousemove", (event) => {
-            tooltip.style("left", (event.pageX + 12) + "px")
-                .style("top", (event.pageY + 12) + "px");
-        })
-        .on("mouseout", () => {
-            tooltip.style("display", "none");
         });
+    });
+
+    // Close tooltip when clicking background
+    d3.select("body").on("click.classroom", function () {
+        tooltip.style("display", "none");
+        svg.selectAll("g").style("opacity", 1);
     });
 
 
@@ -173,8 +184,8 @@ function renderClassroom(data, filters = { year: "All", major: "All", gender: "A
         { label: "High Stress", color: "red" }
     ];
 
-    const legendX = 500; 
-    const legendY = height - 350; 
+    const legendX = 500;
+    const legendY = height - 350;
     const legendSpacing = 25;
 
     const legend = svg.append("g")
@@ -240,7 +251,7 @@ function updateClassroom(filteredData) {
 
     const currentSum = stressDistribution[0] + stressDistribution[1] + stressDistribution[2];
     if (currentSum < totalFigures) {
-        const maxKey = Object.entries(stressDistribution).sort((a,b)=>b[1]-a[1])[0][0];
+        const maxKey = Object.entries(stressDistribution).sort((a, b) => b[1] - a[1])[0][0];
         stressDistribution[maxKey] += (totalFigures - currentSum);
     }
 
@@ -252,8 +263,8 @@ function updateClassroom(filteredData) {
     d3.shuffle(stressArray);
 
     d3.select("#classroom-vis svg")
-        .selectAll("g") 
-        .each(function(_, i) {
+        .selectAll("g")
+        .each(function (_, i) {
             const stressLevel = stressArray[i % stressArray.length];
             const colour = colourScale(stressLevel);
             const g = d3.select(this);
@@ -261,22 +272,22 @@ function updateClassroom(filteredData) {
                 .attr("stroke", colour)
                 .attr("fill", colour);
         });
-    
+
     d3.select("#classroom-vis svg")
-    .selectAll("g")
-    .each(function(_, i) {
-        const stressLevel = stressArray[i % stressArray.length];
-        const colour = colourScale(stressLevel);
-        const g = d3.select(this);
+        .selectAll("g")
+        .each(function (_, i) {
+            const stressLevel = stressArray[i % stressArray.length];
+            const colour = colourScale(stressLevel);
+            const g = d3.select(this);
 
-        const boundData = g.datum() || {};
-        boundData.stress_level = stressLevel;
-        g.datum(boundData);
+            const boundData = g.datum() || {};
+            boundData.stress_level = stressLevel;
+            g.datum(boundData);
 
-        g.selectAll("circle, line").transition().duration(600)
-            .attr("stroke", colour)
-            .attr("fill", colour);
-    });
+            g.selectAll("circle, line").transition().duration(600)
+                .attr("stroke", colour)
+                .attr("fill", colour);
+        });
 
     const counts = getStressCountsFromFigures();
 
@@ -289,8 +300,8 @@ function updateClassroom(filteredData) {
 }
 
 function getStressCountsFromFigures() {
-    const counts = {0:0, 1:0, 2:0};
-    d3.selectAll("#classroom-vis svg g:not(.legend)").each(function() {
+    const counts = { 0: 0, 1: 0, 2: 0 };
+    d3.selectAll("#classroom-vis svg g:not(.legend)").each(function () {
         const d = d3.select(this).datum();
         if (d && d.stress_level != null) counts[d.stress_level]++;
     });
@@ -299,10 +310,9 @@ function getStressCountsFromFigures() {
 
 
 
-renderClassroom(window.__FULL_ROWS__, { 
-    year: selectedYear, 
-    major: selectedMajor, 
-    gender: selectedGender 
-});
+// renderClassroom call removed to prevent crash before data load.
+// main.js will handle the initial render.
+
+window.updateClassroom = updateClassroom;
 
 window.updateClassroom = updateClassroom;

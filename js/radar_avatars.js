@@ -141,7 +141,7 @@
     function lockPanel(containerSel) {
         const el = document.querySelector(containerSel);
         if (!el) return { width: 800, height: 520 };
-        const minH = 520;
+        const minH = 650; // Increased min height
         const lockedHeight = Math.max(minH, el.clientHeight || minH);
         el.style.position = el.style.position || "relative";
         el.style.overflow = "hidden";
@@ -150,12 +150,36 @@
         return { width, height: lockedHeight, lockedHeight };
     }
 
-    // ---------- mini spider chart (bigger) ----------
-    // keep overlay inside bounds
-    function drawMiniRadar(gOverlay, x, y, row, S, width, height) {
+    // ---------- mini spider chart (DOM-based) ----------
+    function getRadarTooltip() {
+        let tt = document.getElementById("radar-tooltip");
+        if (!tt) {
+            tt = document.createElement("div");
+            tt.id = "radar-tooltip";
+            Object.assign(tt.style, {
+                position: "fixed", // Fixed to viewport
+                display: "none",
+                zIndex: 10000,
+                pointerEvents: "none", // Pass through
+                background: "transparent" // SVG handles background
+            });
+            document.body.appendChild(tt);
+        }
+        return tt;
+    }
+
+    function drawMiniRadar(x, y, row, S) {
+        const tt = getRadarTooltip();
+        tt.style.display = "block";
+
+        // Calculate position relative to viewport
+        // x, y are relative to SVG. We need client coordinates.
+        // But wait, the mouse event gives us clientX/Y. Let's use that in the event handler instead.
+        // Here we just draw the content.
+
         const color = wellbeingColor(row, S);
         const metrics = metricsForRow(row, S);
-        const R = 90; // bigger than original 60
+        const R = 90;
         const angle = d3.scaleLinear().domain([0, metrics.length]).range([0, 2 * Math.PI]);
         const radial = (v, i) => {
             const a = angle(i) - Math.PI / 2, rr = v * R;
@@ -166,14 +190,17 @@
             .y(d => d[1])
             .curve(d3.curveLinearClosed);
 
-        gOverlay.selectAll("*").remove();
+        // Clear previous content
+        tt.innerHTML = "";
 
-        const safeX = within(x, 40, width - 40);
-        const safeY = within(y, 40, height - 40);
+        const size = (R + 40) * 2;
+        const svg = d3.select(tt).append("svg")
+            .attr("width", size)
+            .attr("height", size)
+            .style("overflow", "visible"); // Allow text to spill slightly
 
-        const grp = gOverlay.append("g")
-            .attr("transform", `translate(${safeX},${safeY})`)
-            .style("pointer-events", "none");
+        const grp = svg.append("g")
+            .attr("transform", `translate(${size / 2},${size / 2})`);
 
         grp.append("circle")
             .attr("r", R + 12)
@@ -314,50 +341,6 @@
         gNodes = svg.append("g");
         gOverlay = svg.append("g").style("pointer-events", "none");
 
-        // --- stick-figure legend (color → severity) ---
-        (function drawLegend() {
-            const PAD = 18;
-            const legend = svg.append("g")
-                .attr("class", "avatar-legend")
-                .attr("transform", `translate(${PAD + 6},${height - 80})`);
-
-            legend.append("text")
-                .attr("x", 0)
-                .attr("y", 0)
-                .attr("fill", "#2b2116")
-                .attr("font-size", 11)
-                .attr("font-weight", 700)
-                .text("Stick figure color = combined severity");
-
-            const levels = [
-                { label: "Low", t: 0.18 },
-                { label: "Moderate", t: 0.50 },
-                { label: "High", t: 0.85 }
-            ];
-
-            const row = legend.selectAll("g.level")
-                .data(levels)
-                .enter()
-                .append("g")
-                .attr("class", "level")
-                .attr("transform", (d, i) => `translate(0,${16 + i * 18})`);
-
-            row.append("circle")
-                .attr("cx", 6)
-                .attr("cy", -4)
-                .attr("r", 6)
-                .attr("fill", d => d3.interpolateRdYlGn(1 - d.t))
-                .attr("stroke", "#333")
-                .attr("stroke-width", 0.8);
-
-            row.append("text")
-                .attr("x", 18)
-                .attr("y", -1)
-                .attr("fill", "#2b2116")
-                .attr("font-size", 10.5)
-                .text(d => d.label + " severity");
-        })();
-
         const PAD = 18, COLLIDE_R = 12, ROAM_STRENGTH = 0.06;
         const N = Math.min(rows.length, 250);
         const nodes = d3shuffle(rows).slice(0, N).map((r, i) => ({
@@ -417,6 +400,9 @@
                 sim.alpha(0.3).restart();
             }
         }
+        // gOverlay = svg.append("g").style("pointer-events", "none"); // Removed
+
+        // ...
 
         gNodes.selectAll("g.avatar")
             .data(nodes, d => d.id)
@@ -432,21 +418,39 @@
                 gEnter
                     .on("mouseenter", (e, d) => {
                         setHover(d.id);
-                        gOverlay.selectAll("*").remove();
-                        // pass width/height so radar has bounds
-                        drawMiniRadar(
-                            gOverlay,
-                            d.x ?? width / 2,
-                            d.y ?? height / 2,
-                            d.r,
-                            S,
-                            width,
-                            height
-                        );
+                        const tt = getRadarTooltip();
+                        drawMiniRadar(0, 0, d.r, S); // Draw content
+
+                        // Position it
+                        const boxSize = 260; // Approx size
+                        let left = e.clientX + 20;
+                        let top = e.clientY - boxSize / 2;
+
+                        // Clamp to viewport
+                        if (left + boxSize > window.innerWidth) left = e.clientX - boxSize - 20;
+                        if (top < 0) top = 10;
+                        if (top + boxSize > window.innerHeight) top = window.innerHeight - boxSize - 10;
+
+                        tt.style.left = left + "px";
+                        tt.style.top = top + "px";
+                    })
+                    .on("mousemove", (e) => {
+                        const tt = getRadarTooltip();
+                        const boxSize = 260;
+                        let left = e.clientX + 20;
+                        let top = e.clientY - boxSize / 2;
+
+                        if (left + boxSize > window.innerWidth) left = e.clientX - boxSize - 20;
+                        if (top < 0) top = 10;
+                        if (top + boxSize > window.innerHeight) top = window.innerHeight - boxSize - 10;
+
+                        tt.style.left = left + "px";
+                        tt.style.top = top + "px";
                     })
                     .on("mouseleave", () => {
                         setHover(null);
-                        gOverlay.selectAll("*").remove();
+                        const tt = getRadarTooltip();
+                        tt.style.display = "none";
                     });
 
                 return gEnter;
@@ -486,7 +490,7 @@
         // ----- metric axis -----
         function drawMetricScale(xScale, label) {
             gOverlay.selectAll("*").remove();
-            const axisY = height - 24;
+            const axisY = height - 100; // Moved up even more to ensure visibility
 
             const axis = d3.axisBottom(xScale).ticks(6).tickSizeOuter(0);
             const gAxis = gOverlay.append("g")
@@ -497,7 +501,7 @@
 
             gOverlay.append("text")
                 .attr("x", (xScale.range()[0] + xScale.range()[1]) / 2)
-                .attr("y", axisY - 10)
+                .attr("y", axisY + 30) // Adjusted label position
                 .attr("text-anchor", "middle")
                 .attr("fill", "#2b2116")
                 .attr("font-weight", 700)
@@ -507,7 +511,7 @@
         // ----- layout switching -----
         function setMode(mode) {
             currentMode = mode;
-            gOverlay.selectAll("*").remove();
+            gOverlay.selectAll("*").remove(); // Clear axis and other overlay elements
 
             if (mode === "roam") {
                 nodes.forEach(n => {
