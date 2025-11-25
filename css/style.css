@@ -11,13 +11,14 @@
     --accent: #A66A2B;
 }
 
-.title-section{
+.title-section {
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    background: linear-gradient(135deg, #1d1d1d, #111);
-    color: white;
+    background: var(--bg);
+    /* Match global theme */
+    color: var(--text);
     padding: 0 20px;
 }
 
@@ -26,7 +27,8 @@
 }
 
 .presents {
-    font-size: 1.6rem;
+    font-size: 2rem;
+    /* Increased */
     font-weight: 300;
     letter-spacing: 2px;
     opacity: 0;
@@ -34,7 +36,8 @@
 }
 
 .main-title {
-    font-size: 4rem;
+    font-size: 5.5rem;
+    /* Increased */
     font-weight: 700;
     margin: 10px 0 15px 0;
     opacity: 0;
@@ -42,10 +45,11 @@
 }
 
 .subtitle {
-    font-size: 1.4rem;
+    font-size: 1.8rem;
+    /* Increased */
     opacity: 0;
     animation: fadeIn 2.4s ease forwards 0.8s;
-    margin: 0 0 .5rem 0; 
+    margin: 0 0 .5rem 0;
     font-weight: 600;
 }
 
@@ -53,6 +57,10 @@
     margin-top: 25px;
     opacity: 0;
     animation: fadeIn 2.4s ease forwards 1.2s;
+    font-size: 1.1rem;
+    /* Increased */
+    padding: 10px 18px;
+    /* Increased */
 }
 
 @keyframes fadeUp {
@@ -60,6 +68,7 @@
         opacity: 0;
         transform: translateY(25px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -67,33 +76,65 @@
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 
-html, body { background: var(--bg); }
+* {
+    box-sizing: border-box;
+}
+
+html,
 body {
-    font-family: 'Inter', sans-serif;
     background: var(--bg);
-    color: var(--text);
     margin: 0;
     padding: 0;
+    overflow: hidden;
+    /* Let fullPage handle scrolling */
 }
 
-h1, h2, h3, h4 { color: var(--text); }
-p, li, span, text { color: var(--text); }
+body {
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    font-size: 18px;
+    line-height: 1.6;
+}
 
-.panel, .section, .card {
+h1,
+h2,
+h3,
+h4 {
+    color: var(--text);
+}
+
+p,
+li,
+span,
+text {
+    color: var(--text);
+}
+
+.panel,
+.card {
     background: var(--card);
     border: 1px solid var(--card-border);
     border-radius: 12px;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
-    padding: 20px;
+    padding: 24px;
+    /* Increased padding */
     margin-bottom: 20px;
 }
 
-.site-header, .site-footer {
+/* Note: .section is used by fullPage.js, so we shouldn't apply generic card styles to it directly unless intended */
+
+.site-header,
+.site-footer {
     background: var(--card);
     color: var(--text);
     border-bottom: 2px solid var(--card-border);
@@ -102,19 +143,40 @@ p, li, span, text { color: var(--text); }
 }
 
 /* === SVG and Chart Elements === */
-svg { background: var(--bg); }
+svg {
+    background: var(--bg);
+}
 
-.axis path, .axis line { stroke: var(--grid); }
+.axis path,
+.axis line {
+    stroke: var(--grid);
+}
 
 .tick text {
     fill: var(--text);
-    font-size: 12px;
+    font-size: 14px;
+    /* Increased */
 }
 
-.y-label { fill: var(--text); font-weight: 600; }
+.y-label {
+    fill: var(--text);
+    font-weight: 600;
+    font-size: 16px;
+    /* Increased */
+}
 
-.legend-title { fill: var(--text); font-weight: 700; font-size: 12px; }
-.legend-tick  { fill: var(--text); font-size: 11px; }
+.legend-title {
+    fill: var(--text);
+    font-weight: 700;
+    font-size: 14px;
+    /* Increased */
+}
+
+.legend-tick {
+    fill: var(--text);
+    font-size: 13px;
+    /* Increased */
+}
 
 .value-pin {
     fill: var(--text);
@@ -122,7 +184,8 @@ svg { background: var(--bg); }
     stroke: var(--card);
     stroke-width: 3px;
     paint-order: stroke;
-    font-size: 11px;
+    font-size: 13px;
+    /* Increased */
 }
 
 .tooltip {
@@ -131,48 +194,81 @@ svg { background: var(--bg); }
     border: 1px solid var(--card-border);
     color: var(--text);
     border-radius: 8px;
-    padding: 8px 10px;
-    font-size: 13px;
+    padding: 10px 14px;
+    /* Increased */
+    font-size: 15px;
+    /* Increased */
     pointer-events: none;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+    display: none;
+    /* Hidden by default */
 }
 
 /* === Buttons, Links, Highlights === */
-a { color: var(--accent); text-decoration: none; }
-a:hover { text-decoration: underline; }
+a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
 
 button {
     background: var(--accent);
     color: #fff;
     border: none;
-    padding: 8px 14px;
+    padding: 10px 16px;
+    /* Increased */
     border-radius: 8px;
     font-weight: 600;
     cursor: pointer;
+    font-size: 1rem;
+    /* Explicit size */
 }
-button:hover { background: #8c581d; }
+
+button:hover {
+    background: #8c581d;
+}
 
 /* === Custom Visualization Frames === */
-#garden-vis, #triangle-vis {
+#garden-vis,
+#triangle-vis {
     border-radius: 14px;
     border: 1px solid var(--card-border);
     background: var(--card);
     padding: 10px;
-    box-shadow: inset 0 0 8px rgba(0,0,0,0.05);
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05);
 
     /* IMPORTANT: anchor any absolutely-positioned UI (labels/tools) to each vis */
     position: relative;
 }
 
 /* === Captions and Notes === */
-.caption { color: var(--muted); font-size: 13px; }
+.caption {
+    color: var(--muted);
+    font-size: 15px;
+    /* Increased */
+}
 
 /* === Linked highlighting styles === */
-.row.deemph { opacity: 0.25; transition: opacity .2s ease; }
-.row.hilite { filter: drop-shadow(0 0 6px rgba(0,0,0,.18)); opacity: 1; }
+.row.deemph {
+    opacity: 0.25;
+    transition: opacity .2s ease;
+}
+
+.row.hilite {
+    filter: drop-shadow(0 0 6px rgba(0, 0, 0, .18));
+    opacity: 1;
+}
 
 /* Smooth theme transitions */
-html, body, .panel, .visbox, svg {
+html,
+body,
+.panel,
+.visbox,
+svg {
     transition: background-color .35s ease, color .35s ease;
 }
 
@@ -188,82 +284,107 @@ html, body, .panel, .visbox, svg {
 }
 
 
-:root { 
-    --wrap: 1200px; 
-    --radius: 14px; 
-    --panel-bg: rgba(255,255,255,0.45); 
+:root {
+    --wrap: 1400px;
+    /* Increased max width */
+    --radius: 14px;
+    --panel-bg: rgba(255, 255, 255, 0.45);
 }
 
-.wrap { 
-    max-width: var(--wrap); 
-    margin: 0 auto; 
-    padding: 1.25rem 1rem; 
-    transition: transform 0.35s ease; 
-}
-.page-title { 
-    margin: 0 0 .25rem 0; 
+.section {
+    overflow: hidden;
+    /* Prevent internal scrollbars */
 }
 
-.panel { 
-    background: var(--panel-bg); 
-    border-radius: var(--radius); 
-    padding: 1rem 1.25rem; 
+.wrap {
+    max-width: var(--wrap);
+    margin: 0 auto;
+    padding: 1rem;
+    /* Reduced padding */
+    transition: transform 0.35s ease;
+    height: 100%;
+    /* Ensure it takes full height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* Center content vertically */
 }
 
-.panel.soft { 
-    padding: .9rem 1rem; 
+.page-title {
+    margin: 0 0 .5rem 0;
 }
 
-.section-title { 
-    margin: 0 0 .35rem 0; 
+.panel {
+    background: var(--panel-bg);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    /* Reduced padding */
+    max-height: 100%;
+    overflow: hidden;
+    /* Prevent panel overflow */
 }
 
-.visbox { 
-    background: rgba(255,255,255,0.35); 
-    border-radius: var(--radius); 
-    padding: .75rem; 
+.panel.soft {
+    padding: 1.2rem 1.5rem;
 }
 
-.visblock { 
-    min-height: 520px; 
+.section-title {
+    margin: 0 0 .5rem 0;
+    font-size: 2rem;
+    /* Increased */
 }
 
-.muted { 
-    opacity: .82; 
-    
+.visbox {
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: var(--radius);
+    padding: 1rem;
 }
 
-.bullets { 
-    margin: .5rem 0 0 0; 
-    padding-left: 1.1rem; 
+.visblock {
+    min-height: 650px;
+    /* Increased height */
 }
 
-.spacer { 
-    height: 10px; 
+.muted {
+    opacity: .82;
+    font-size: 1.1rem;
+    /* Increased */
 }
 
-footer { 
-    padding: 2rem; 
-    text-align: center; 
-    opacity: .6; 
+.bullets {
+    margin: .5rem 0 0 0;
+    padding-left: 1.1rem;
+}
+
+.spacer {
+    height: 15px;
+}
+
+footer {
+    padding: 2rem;
+    text-align: center;
+    opacity: .6;
+    font-size: 1rem;
 }
 
 #vis-control-panel {
     position: fixed;
-    left: -500px;      
-    width: 440px;      
+    left: -550px;
+    /* Adjusted */
+    width: 480px;
+    /* Increased width */
     height: 100vh;
-    background: rgba(255,255,255,0.96);
-    box-shadow: 4px 0 20px rgba(0,0,0,0.15);
-    padding: 20px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+    padding: 30px;
     transition: left 0.35s ease;
     z-index: 60;
     overflow-y: auto;
 
     display: flex;
     flex-direction: column;
-    justify-content: center;     
-    align-items: center;          
+    justify-content: center;
+    align-items: center;
     text-align: center;
 }
 
@@ -278,15 +399,18 @@ footer {
     background: #333;
     color: white;
     border: none;
-    padding: 10px 16px;
+    padding: 12px 20px;
+    /* Increased */
     border-radius: 8px;
     cursor: pointer;
     opacity: 0;
     pointer-events: none;
-    font-size: 0.95rem;
+    font-size: 1.1rem;
+    /* Increased */
     z-index: 70;
     transition: opacity 0.3s ease;
 }
+
 #vis-control-toggle.visible {
     opacity: 1;
     pointer-events: all;
@@ -294,5 +418,153 @@ footer {
 
 
 .section.panel-open .wrap {
-    transform: translateX(180px);
+    transform: translateX(200px);
+    /* Adjusted */
+}
+
+/* === Grid Layout === */
+.slide-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 30px;
+    height: 80vh;
+    /* Safe height to prevent overflow */
+    width: 100%;
+    align-items: stretch;
+    margin-top: 20px;
+}
+
+.vis-area {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    /* Revert to hidden to prevent infinite scroll */
+    position: relative;
+}
+
+/* Allow radar chart to spill over for tooltips/labels */
+/* Reverted radar overflow since we now use a DOM tooltip */
+/* #section-radar .vis-area { overflow: visible; } */
+
+/* #radar-vis { overflow: visible !important; } */
+
+.visbox {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+    /* Safety net for D3 */
+    background: rgba(255, 255, 255, 0.45);
+    border-radius: var(--radius);
+    padding: 1rem;
+    opacity: 1 !important;
+    /* FORCE VISIBILITY */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Removed .visbox.animate-in as it is no longer needed for visibility */
+
+.sidebar {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* === Instruction Box === */
+.instruction-box {
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-top: 20px;
+    font-size: 0.95rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-left: 4px solid var(--accent);
+}
+
+.instruction-box h4 {
+    margin-top: 0;
+    margin-bottom: 14px;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.instruction-box ul {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--muted);
+}
+
+.instruction-box li {
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.instruction-box .icon {
+    font-size: 1.2em;
+}
+
+/* === Student Stress Character === */
+#stress-character-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 150px;
+    height: 150px;
+    z-index: 100;
+    pointer-events: none;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.stress-char {
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* Animation states */
+.stress-char.walking {
+    animation: bounce 0.5s infinite alternate;
+}
+
+@keyframes bounce {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-10px);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .slide-grid {
+        grid-template-columns: 1fr;
+        height: auto;
+        gap: 20px;
+    }
+
+    .sidebar {
+        height: auto;
+    }
+
+    .visblock {
+        min-height: 500px;
+    }
 }

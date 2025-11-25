@@ -72,7 +72,106 @@
     }
     if (window.renderAvatar) window.renderAvatar(data);
     if (window.renderClassroom) window.renderClassroom(data);
+    // Global state for stress character
+    const stressCharState = {
+        currentSection: 0,
+        isStressed: false
+    };
 
+    function updateStressCharacter(index) {
+        const container = document.getElementById('stress-character-container');
+        const char = container.querySelector('.stress-char');
+
+        // Logic to determine stress state based on slide index
+        // Slides 0-2: Intro (Relaxed)
+        // Slides 3-5: Data exploration (Neutral/Thinking)
+        // Slides 6-9: Deep dive (Stressed)
+        // Slides 10+: Solution (Relaxed/Happy)
+
+        let state = 'relaxed';
+        if (index >= 3 && index <= 5) state = 'thinking';
+        if (index >= 6 && index <= 9) state = 'stressed';
+        if (index >= 10) state = 'happy';
+
+        // In a real implementation, we would swap background images here.
+        // For this prototype, we'll use emojis or simple colors/shapes if images aren't available.
+        // Assuming we might not have images yet, let's use a placeholder approach that can be easily swapped.
+
+        // Clear previous classes
+        char.className = 'stress-char';
+
+        // Add animation class on slide change
+        char.classList.add('walking');
+        setTimeout(() => char.classList.remove('walking'), 1000);
+
+        // Set visual state (placeholder logic)
+        // You would replace these with actual image paths
+        const images = {
+            relaxed: 'url("images/char-relaxed.svg")', // Placeholder
+            thinking: 'url("images/char-thinking.svg")',
+            stressed: 'url("images/char-stressed.svg")',
+            happy: 'url("images/char-happy.svg")'
+        };
+
+        // Fallback if images don't exist (using emojis for now to ensure visibility)
+        char.innerHTML = '';
+        char.style.fontSize = '100px';
+        char.style.display = 'flex';
+        char.style.alignItems = 'center';
+        char.style.justifyContent = 'center';
+
+        switch (state) {
+            case 'relaxed': char.textContent = '😌'; break;
+            case 'thinking': char.textContent = '🤔'; break;
+            case 'stressed': char.textContent = '🤯'; break;
+            case 'happy': char.textContent = '🥳'; break;
+        }
+    }
+
+    function triggerAnimations(index) {
+        // Remove animation class from all visboxes to reset
+        document.querySelectorAll('.visbox').forEach(el => el.classList.remove('animate-in'));
+
+        // Find the active section
+        const activeSection = document.querySelectorAll('.section')[index];
+        if (activeSection) {
+            const visbox = activeSection.querySelector('.visbox');
+            if (visbox) {
+                // Force opacity immediately
+                visbox.style.opacity = "1";
+
+                // Small delay to allow slide transition to finish or start
+                setTimeout(() => visbox.classList.add('animate-in'), 100);
+
+                // FORCE RE-RENDER based on index
+                // 3: Classroom, 4: Radar, 6: Sleep, 8: Ternary, 10: Garden
+                const data = window.__FULL_ROWS__ || [];
+                if (data.length === 0) return;
+
+                if (index === 3 && window.renderClassroom) {
+                    document.getElementById('classroom-vis').innerHTML = ''; // Clear
+                    window.renderClassroom(data);
+                }
+                if (index === 4 && window.renderAvatar) {
+                    // Radar handles its own resizing usually, but let's be safe
+                    // window.renderAvatar(data); // Might be too heavy to full re-render
+                }
+                if (index === 6 && window.renderSleepOrbit) {
+                    document.getElementById('sleep-orbit-vis').innerHTML = '';
+                    window.renderSleepOrbit(data);
+                    if (window.updateSleepOrbit) window.updateSleepOrbit(data);
+                }
+                if (index === 8 && window.renderTriangle) {
+                    document.getElementById('triangle-vis').innerHTML = '';
+                    window.renderTriangle(data);
+                }
+                if (index === 10 && window.renderGarden) {
+                    document.getElementById('garden-vis').innerHTML = '';
+                    window.renderGarden(data);
+                }
+            }
+        }
+    }
     // --- enhancements: filters + simple simulator ---
     function firstKey(rows, options) {
         // Return the first key that exists in at least one row
@@ -206,14 +305,15 @@
         if (window.renderTriangle) window.renderTriangle(subset);
         if (window.renderGarden) window.renderGarden(subset);
         if (window.updateClassroom) window.updateClassroom(subset);
-        if (window.updateSleepOrbit && window.renderSleepOrbit) {
+        if (window.renderSleepOrbit && window.updateSleepOrbit) {
             // rerender sleep orbit with subset
-            d3.select("#sleep-orbit-svg").remove();
+            d3.select("#sleep-orbit-vis").html(""); // Clear container first
             window.renderSleepOrbit(subset);
             window.updateSleepOrbit(subset);
         };
+        // NOTE: renderAvatar is intentionally NOT called here to keep it showing "all students" as requested.
     }
     // --- end enhancements ---
-    
+
 
 })();
