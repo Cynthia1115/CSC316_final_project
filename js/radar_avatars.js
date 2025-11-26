@@ -141,8 +141,8 @@
     function lockPanel(containerSel) {
         const el = document.querySelector(containerSel);
         if (!el) return { width: 800, height: 520 };
-        const minH = 650; // Increased min height
-        const lockedHeight = Math.max(minH, el.clientHeight || minH);
+        // Use the actual client height, falling back to a safe minimum only if 0
+        const lockedHeight = el.clientHeight || 450;
         el.style.position = el.style.position || "relative";
         el.style.overflow = "hidden";
         el.style.height = lockedHeight + "px";
@@ -490,21 +490,28 @@
         // ----- metric axis -----
         function drawMetricScale(xScale, label) {
             gOverlay.selectAll("*").remove();
-            const axisY = height - 100; // Moved up even more to ensure visibility
+            const axisY = height - 80; // Positioned near bottom of visible area
 
             const axis = d3.axisBottom(xScale).ticks(6).tickSizeOuter(0);
             const gAxis = gOverlay.append("g")
                 .attr("transform", `translate(0,${axisY})`)
                 .call(axis);
-            gAxis.selectAll("path, line").attr("stroke", "rgba(0,0,0,0.35)");
-            gAxis.selectAll("text").attr("fill", "#2b2116").attr("font-size", 11);
+            gAxis.selectAll("path, line")
+                .attr("stroke", "#2b2116")
+                .attr("stroke-width", 1.5)
+                .attr("opacity", 0.6);
+            gAxis.selectAll("text")
+                .attr("fill", "#2b2116")
+                .attr("font-size", 11)
+                .attr("font-weight", 600);
 
             gOverlay.append("text")
                 .attr("x", (xScale.range()[0] + xScale.range()[1]) / 2)
-                .attr("y", axisY + 30) // Adjusted label position
+                .attr("y", axisY + 38) // Adjusted label position
                 .attr("text-anchor", "middle")
                 .attr("fill", "#2b2116")
                 .attr("font-weight", 700)
+                .attr("font-size", 13)
                 .text(label);
         }
 
