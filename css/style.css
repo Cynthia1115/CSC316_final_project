@@ -994,8 +994,3 @@ footer {
 #section-sleep .instruction-box ul {
     margin-bottom: 0.25rem;
 }
-
-/* Make sure the Sleep Orbit SVG never overflows vertically */
-#sleep-orbit-vis svg {
-    max-height: 320px;
-}
