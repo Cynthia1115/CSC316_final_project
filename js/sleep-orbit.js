@@ -331,7 +331,7 @@
 
         d3.selectAll(".sleep-orbit-stat-label")
             .data(tracked_stats.toReversed())
-            .text(d => d.name + ": " + (filtered_data.length > 0 ? d3.mean(filtered_data, entry => entry[d.column]).toFixed(2) : "N/A"));
+            .text(d => d.name + ": " + (filtered_data.length > 0 ? d3.mean(filtered_data, entry => entry[d.column]).toFixed(2) : "No Data"));
     }
 
     window.renderSleepOrbit = renderSleepOrbit;
