@@ -92,11 +92,59 @@
 
 html,
 body {
-    background: var(--bg);
+    /* Soft parchment base */
+    background-color: var(--bg);
+
+    /* Decorated ring AROUND the center.
+       Images sit near edges so the middle stays clean. */
+    background-image:
+        /* top */
+        url('../font/flower1.png'),
+        url('../font/flower2.png'),
+        /* sides */
+        url('../font/flower3.png'),
+        url('../font/flower4.png'),
+        /* bottom */
+        url('../font/flower5.png'),
+        url('../font/flower6.png'),
+        /* small accents */
+        url('../font/bee.png'),
+        url('../font/cloud.png');
+    background-repeat:
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat;
+    background-position:
+        /* top */
+        15% 8%,
+        85% 8%,
+        /* sides (middle left/right) */
+        4% 50%,
+        96% 50%,
+        /* bottom */
+        15% 92%,
+        85% 92%,
+        /* little bee + cloud near edges */
+        10% 30%,
+        90% 70%;
+    background-size:
+        120px auto,
+        120px auto,
+        130px auto,
+        130px auto,
+        120px auto,
+        120px auto,
+        80px auto,
+        110px auto;
+
     margin: 0;
     padding: 0;
-    overflow: hidden;
-    /* Let fullPage handle scrolling */
+    overflow: hidden; /* Let fullPage handle scrolling */
 }
 
 body {
@@ -567,4 +615,387 @@ footer {
     .visblock {
         min-height: 500px;
     }
+}
+
+/* === Overview Slides Decoration === */
+.overview-card {
+    position: relative;
+    border-radius: 26px;
+    padding: 2.5rem 3rem;
+    box-shadow: 0 18px 40px rgba(62, 47, 28, 0.22);
+    overflow: hidden;
+    background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.96), var(--card));
+}
+
+.overview-card h1,
+.overview-card h2 {
+    font-family: 'Playfair Display', 'Times New Roman', serif;
+    letter-spacing: 0.03em;
+}
+
+.overview-card p {
+    font-family: 'Nunito', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6;
+}
+
+/* Subtle leaf corners */
+.overview-card::before,
+.overview-card::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: 0.25;
+}
+
+.overview-card::before {
+    top: -54px;
+    left: -40px;
+    width: 230px;
+    height: 230px;
+    background-image: url('../font/leaf_corners_1.jpg');
+}
+
+.overview-card::after {
+    right: -50px;
+    bottom: -60px;
+    width: 260px;
+    height: 260px;
+    background-image: url('../font/leaf_corners_2.jpg');
+}
+
+/* Icon overlays for each overview slide */
+
+.overview-icon {
+    position: absolute;
+    pointer-events: none;
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: 0.75;
+}
+
+.icon-sticky {
+    top: -40px;
+    right: -30px;
+    width: 260px;
+    height: 260px;
+    background-image: url('../font/stickynote1.jpg');
+    transform: rotate(-4deg);
+}
+
+.icon-moon {
+    top: -40px;
+    right: 20px;
+    width: 150px;
+    height: 150px;
+    background-image: url('../font/moon.png');
+}
+
+.icon-watering {
+    bottom: -40px;
+    right: -20px;
+    width: 260px;
+    height: 260px;
+    background-image: url('../font/watering_can.jpg');
+    transform: rotate(3deg);
+}
+
+.icon-sun {
+    top: -50px;
+    right: -10px;
+    width: 180px;
+    height: 180px;
+    background-image: url('../font/sun.png');
+    animation: floatSparkle 10s ease-in-out infinite;
+}
+
+/* Floating sparkle accent that can be re-used */
+
+.overview-card .overview-sparkles {
+    position: absolute;
+    top: 18px;
+    left: 28px;
+    width: 80px;
+    height: 80px;
+    background-image: url('../font/sparkle_2.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: 0.7;
+    animation: floatSparkle 9s ease-in-out infinite;
+}
+
+@keyframes floatSparkle {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+        opacity: 0.5;
+    }
+    50% {
+        transform: translateY(-8px) rotate(4deg);
+        opacity: 0.95;
+    }
+}
+
+@media (max-width: 768px) {
+    .overview-card {
+        padding: 1.8rem 1.6rem;
+        box-shadow: 0 10px 26px rgba(62, 47, 28, 0.18);
+    }
+
+    .overview-icon {
+        opacity: 0.55;
+    }
+}
+
+
+.icon-ribbon {
+    top: -48px;
+    left: -10px;
+    width: 260px;
+    height: 260px;
+    background-image: url('../font/ribbon_title.png');
+    transform: rotate(-2deg);
+}
+
+.icon-flowers {
+    bottom: -50px;
+    right: -10px;
+    width: 280px;
+    height: 280px;
+    background-image: url('../font/flower_border.png');
+}
+
+.icon-night {
+    top: -40px;
+    right: -10px;
+    width: 260px;
+    height: 260px;
+    background-image: url('../font/gradient_daynight.png');
+}
+
+.icon-cloud {
+    top: -10px;
+    right: 30px;
+    width: 210px;
+    height: 210px;
+    background-image: url('../font/cloud.png');
+}
+
+
+
+/* === Intro Card Tweaks === */
+.panel.overview-card--intro {
+    max-width: 1100px;
+    margin: 0 auto 2.5rem auto;
+}
+
+.panel.overview-card--intro p {
+    font-size: 1.3rem;
+    line-height: 1.7;
+}
+/* === Interlude Layout: title on top, centered description, side graphics === */
+
+/* Intro emotion icon rotator (inspired by Dogs of New York intro flow) */
+.intro-emotion-rotator {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    margin: 1.75rem auto 0 auto;
+}
+
+.intro-emotion-rotator .emotion-frame {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    animation: introEmotionFade 20s infinite;
+}
+
+/* Staggered delays so icons fade in one after another */
+.intro-emotion-rotator .emotion-frame-1 { animation-delay: 0s; }
+.intro-emotion-rotator .emotion-frame-2 { animation-delay: 4s; }
+.intro-emotion-rotator .emotion-frame-3 { animation-delay: 8s; }
+.intro-emotion-rotator .emotion-frame-4 { animation-delay: 12s; }
+.intro-emotion-rotator .emotion-frame-5 { animation-delay: 16s; }
+
+@keyframes introEmotionFade {
+    0%, 8% {
+        opacity: 0;
+        transform: translateY(6px) scale(0.98);
+    }
+    10%, 20% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    22%, 100% {
+        opacity: 0;
+        transform: translateY(-4px) scale(0.98);
+    }
+}
+
+/* Slightly smaller on narrow screens so it still fits nicely */
+@media (max-width: 768px) {
+    .intro-emotion-rotator {
+        width: 180px;
+        height: 180px;
+        margin-top: 1.25rem;
+    }
+}
+.interlude-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+    align-items: center;
+}
+
+.interlude-title {
+    text-align: center;
+    font-family: 'Playfair Display', 'Times New Roman', serif;
+    font-size: 2.4rem;
+    margin: 0;
+    animation: fadeUpTitle 0.9s ease-out forwards;
+}
+
+.interlude-body {
+    max-width: 760px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.interlude-text {
+    font-size: 1.3rem;
+    line-height: 1.7;
+    opacity: 0;
+    animation: fadeUpBody 1.1s ease-out forwards;
+    animation-delay: 0.25s;
+}
+
+/* fade-up animations for title + text */
+@keyframes fadeUpTitle {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeUpBody {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* === Slide side-panel descriptions animation === */
+.slide-description {
+    font-size: 1.3rem;
+    line-height: 1.7;
+    opacity: 0;
+    animation: fadeUpBody 1s ease-out forwards;
+    animation-delay: 0.2s;
+}
+
+.slide-description {
+    font-family: 'Nunito', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 400;
+    background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.96), rgba(255, 247, 235, 0.98));
+    border-radius: 20px;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 14px 28px rgba(62, 47, 28, 0.18);
+    max-width: 380px;
+    position: relative;
+}
+
+
+/* soft floral background peeking behind description cards */
+.slide-description::before {
+    content: "";
+    position: absolute;
+    left: -38px;
+    bottom: -32px;
+    width: 150px;
+    height: 150px;
+    background-image: url('../font/floating_flower2.jpg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: 0.55;
+    z-index: -1;
+}
+
+/* small sparkle sticker on description cards */
+.slide-description::after {
+    content: "";
+    position: absolute;
+    top: -14px;
+    right: 14px;
+    width: 46px;
+    height: 46px;
+    background-image: url('../font/sparkle_2.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: 0.85;
+}
+
+/* keep things tidy on small screens */
+@media (max-width: 900px) {
+    .slide-description {
+        font-size: 1.2rem;
+        max-width: 100%;
+    }
+}
+
+
+/* === Slide side-panel descriptions reset to simple text === */
+.slide-description {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    font-family: 'Nunito', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: none;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+    max-width: none;
+    position: static;
+}
+
+.slide-description::before,
+.slide-description::after {
+    content: none;
+    display: none;
+}
+
+
+/* === Sleep Orbit layout tweaks === */
+#section-sleep .slide-grid {
+    height: 72vh;              /* slightly shorter so everything fits */
+    align-items: center;       /* vertically center vis + sidebar */
+}
+
+#section-sleep .sidebar p.muted,
+#section-sleep .instruction-box li {
+    font-size: 0.95rem;        /* a bit smaller text so we keep all wording */
+    line-height: 1.45;
+}
+
+#section-sleep .controls-container {
+    margin: 10px 0 14px 0;     /* tighter spacing around sliders */
+}
+
+#section-sleep .instruction-box ul {
+    margin-bottom: 0.25rem;
+}
+
+/* Make sure the Sleep Orbit SVG never overflows vertically */
+#sleep-orbit-vis svg {
+    max-height: 320px;
 }

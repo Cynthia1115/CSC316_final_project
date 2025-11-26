@@ -9,6 +9,9 @@
     <!-- Theme -->
     <link rel="stylesheet" href="css/style.css" />
 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Nunito:wght@300;400;600;700&display=swap" />
+
+
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.20/fullpage.min.css" />
@@ -19,85 +22,106 @@
 <body>
 
 
-    <div id="vis-control-panel">
-        <h3></h3>
-        <div id="panel-content"></div>
-    </div>
-    <button id="vis-control-toggle">Filters</button>
+<div id="vis-control-panel">
+    <h3></h3>
+    <div id="panel-content"></div>
+</div>
+<button id="vis-control-toggle">Filters</button>
 
-    <div id="fullpage">
+<div id="fullpage">
 
-        <!-- Slide 1 Title -->
-        <div class="section title-section">
-            <div class="title-content">
-                <h2 class="presents">Stressly presents</h2>
-                <h1 class="main-title">Balancing the Student Life</h1>
-                <button id="themeToggle" class="btn theme-btn">Night Mode</button>
+    <!-- Slide 1 Feeling Stress -->
+    <div class="section feeling-stress-section">
+        <section class="wrap interlude-layout">
+            <h3 class="section-title interlude-title">Feeling stress?</h3>
+            <div class="panel overview-card overview-card--intro">
+                <div class="overview-icon icon-ribbon" aria-hidden="true"></div>
+                <div class="interlude-body" style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:260px;">
+                    <div class="intro-emotion-rotator" aria-hidden="true">
+                        <img src="font/anxiety_flow_1.png" alt="stressed student icon frame 1" class="emotion-frame emotion-frame-1">
+                        <img src="font/anxiety_flow_2.png" alt="stressed student icon frame 2" class="emotion-frame emotion-frame-2">
+                        <img src="font/anxiety_flow_3.png" alt="stressed student icon frame 3" class="emotion-frame emotion-frame-3">
+                        <img src="font/anxiety_flow_4.png" alt="stressed student icon frame 4" class="emotion-frame emotion-frame-4">
+                        <img src="font/anxiety_flow_5.png" alt="stressed student icon frame 5" class="emotion-frame emotion-frame-5">
+                    </div>
+                </div>
             </div>
+        </section>
+    </div>
+
+    <!-- Slide 2 Title -->
+    <div class="section title-section">
+        <div class="title-content">
+            <h2 class="presents">Stressly presents</h2>
+            <h1 class="main-title">Balancing the Student Life</h1>
+            <button id="themeToggle" class="btn theme-btn">Night Mode</button>
         </div>
+    </div>
 
 
-        <!-- Hidden controls container for main.js to pick up -->
-        <div style="display:none;">
-            <div id="hidden-controls-source">
-                <div class="panel">
-                    <h2 class="section-title">Explore Controls</h2>
-                    <p>Filter the proceeding visualizations by demographic groups for more fine tuned analysis.</p>
-                    <div style="display:flex; flex-wrap:wrap; gap:14px; align-items:flex-end;">
-                        <div>
-                            <div style="font-weight:700; margin-bottom:6px;">Filters</div>
-                            <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                                <label style="display:flex; flex-direction:column; gap:4px;">
-                                    <span class="muted">Year</span>
-                                    <select id="fYear">
-                                        <option value="">All</option>
-                                    </select>
-                                </label>
-                                <label style="display:flex; flex-direction:column; gap:4px;">
-                                    <span class="muted">Major</span>
-                                    <select id="fMajor">
-                                        <option value="">All</option>
-                                    </select>
-                                </label>
-                                <label style="display:flex; flex-direction:column; gap:4px;">
-                                    <span class="muted">Gender</span>
-                                    <select id="fGender">
-                                        <option value="">All</option>
-                                    </select>
-                                </label>
-                                <button id="clearFilters" type="button" style="margin-left:6px;">Clear</button>
-                            </div>
-                        </div>
-                        <div style="flex:1; min-width:280px;">
-                            <div style="font-weight:700; margin-bottom:6px;">Quick Simulator (prototype)</div>
-                            <div
-                                style="display:grid; grid-template-columns: 160px 1fr auto; gap:8px; align-items:center;">
-                                <div class="muted">Sleep hours</div>
-                                <input id="simSleep" type="range" min="4" max="10" step="0.5" value="7.5">
-                                <div id="simSleepVal" class="muted">7.5</div>
-                                <div class="muted">Exercise hrs/wk</div>
-                                <input id="simEx" type="range" min="0" max="14" step="1" value="3">
-                                <div id="simExVal" class="muted">3</div>
-                                <div class="muted">Coping</div>
-                                <select id="simCoping">
-                                    <option value="">(auto based on data)</option>
+    <!-- Hidden controls container for main.js to pick up -->
+    <div style="display:none;">
+        <div id="hidden-controls-source">
+            <div class="panel">
+                <h2 class="section-title">Explore Controls</h2>
+                <p>Filter the proceeding visualizations by demographic groups for more fine tuned analysis.</p>
+                <div style="display:flex; flex-wrap:wrap; gap:14px; align-items:flex-end;">
+                    <div>
+                        <div style="font-weight:700; margin-bottom:6px;">Filters</div>
+                        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                            <label style="display:flex; flex-direction:column; gap:4px;">
+                                <span class="muted">Year</span>
+                                <select id="fYear">
+                                    <option value="">All</option>
                                 </select>
-                                <div id="simOut" style="font-weight:700;">Predicted stress: —</div>
-                            </div>
+                            </label>
+                            <label style="display:flex; flex-direction:column; gap:4px;">
+                                <span class="muted">Major</span>
+                                <select id="fMajor">
+                                    <option value="">All</option>
+                                </select>
+                            </label>
+                            <label style="display:flex; flex-direction:column; gap:4px;">
+                                <span class="muted">Gender</span>
+                                <select id="fGender">
+                                    <option value="">All</option>
+                                </select>
+                            </label>
+                            <button id="clearFilters" type="button" style="margin-left:6px;">Clear</button>
+                        </div>
+                    </div>
+                    <div style="flex:1; min-width:280px;">
+                        <div style="font-weight:700; margin-bottom:6px;">Quick Simulator (prototype)</div>
+                        <div
+                                style="display:grid; grid-template-columns: 160px 1fr auto; gap:8px; align-items:center;">
+                            <div class="muted">Sleep hours</div>
+                            <input id="simSleep" type="range" min="4" max="10" step="0.5" value="7.5">
+                            <div id="simSleepVal" class="muted">7.5</div>
+                            <div class="muted">Exercise hrs/wk</div>
+                            <input id="simEx" type="range" min="0" max="14" step="1" value="3">
+                            <div id="simExVal" class="muted">3</div>
+                            <div class="muted">Coping</div>
+                            <select id="simCoping">
+                                <option value="">(auto based on data)</option>
+                            </select>
+                            <div id="simOut" style="font-weight:700;">Predicted stress: —</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
 
 
-        <!-- Slide 2 Hook -->
-        <div class="section">
-            <section id="hook" class="wrap">
-                <h3>Intro</h3>
-                <div class="panel">
-                    <p class="muted">
+    <!-- Slide 2 Hook -->
+    <div class="section">
+        <section id="hook" class="wrap interlude-layout">
+            <h3 class="section-title interlude-title">Intro</h3>
+            <div class="panel overview-card overview-card--intro">
+                <div class="overview-icon icon-ribbon" aria-hidden="true"></div>
+                <div class="interlude-body">
+                    <p class="muted interlude-text">
                         Welcome to Stressly’s “Balancing the Student Life” prototype.
                         This interactive visualization explores how students manage the everyday pressures of academics,
                         work, routines, and personal wellbeing. Each section highlights real patterns and experiences,
@@ -108,89 +132,104 @@
                         explore the data to see how pressure shapes the student experience.
 
                     </p>
+                    <div class="intro-emotion-rotator" aria-hidden="true">
+                        <img src="font/anxiety_flow_1.png" alt="" class="emotion-frame emotion-frame-1">
+                        <img src="font/anxiety_flow_2.png" alt="" class="emotion-frame emotion-frame-2">
+                        <img src="font/anxiety_flow_3.png" alt="" class="emotion-frame emotion-frame-3">
+                        <img src="font/anxiety_flow_4.png" alt="" class="emotion-frame emotion-frame-4">
+                        <img src="font/anxiety_flow_5.png" alt="" class="emotion-frame emotion-frame-5">
+                    </div>
                 </div>
-            </section>
-        </div>
+            </div>
+        </section>
+    </div>
 
-        <!-- Slide 3: Intro to Visualizations -->
-        <div class="section">
-            <section class="wrap">
-                <div class="panel">
-                    <p class="muted">
+    <!-- Slide 3: Intro to Visualizations -->
+    <div class="section">
+        <section class="wrap interlude-layout">
+            <h3 class="section-title interlude-title">Visualizations Overview</h3>
+            <div class="panel overview-card overview-card--intro-vis">
+                <div class="overview-icon icon-flowers" aria-hidden="true"></div>
+                <div class="interlude-body">
+                    <p class="muted interlude-text">
                         The next two visualizations explore student stress and well-being. The Classroom of Stress shows
                         how stress levels vary by year, major, and gender, while the Stick Figure Map with RadarMaps
                         lets you examine individual students’ wellness profiles across multiple dimensions. Together,
                         they highlight both overall patterns and personal variation in student experiences.
                     </p>
                 </div>
-            </section>
-        </div>
+            </div>
+        </section>
+    </div>
 
-        <!-- SLIDE 4: CLASSROOM -->
-        <div class="section" id="section-classroom">
-            <div class="wrap slide-grid">
-                <div class="vis-area">
-                    <h2 class="section-title">The Classroom of Stress</h2>
-                    <div id="classroom-vis" class="visbox"></div>
-                </div>
-                <div class="sidebar">
-                    <p class="muted">
-                        Step into a virtual lecture hall where every student tells a story. This
-                        visualization maps the entire student body, revealing the hidden prevalence of
-                        stress across different demographics.
-                    </p>
-                    <div class="instruction-box">
-                        <h4><span class="icon">ℹ️</span> How to Explore</h4>
-                        <ul>
-                            <li><strong>Observe:</strong> Each figure represents a real student.</li>
-                            <li><strong>Color Code:</strong> <span style="color:#e57373">Red</span> = High
-                                Stress, <span style="color:#ffb74d">Orange</span> = Moderate, <span
+    <!-- SLIDE 4: CLASSROOM -->
+    <div class="section" id="section-classroom">
+        <div class="wrap slide-grid">
+            <div class="vis-area">
+                <h2 class="section-title">The Classroom of Stress</h2>
+                <div id="classroom-vis" class="visbox"></div>
+            </div>
+            <div class="sidebar">
+                <p class="muted slide-description">
+                    Step into a virtual lecture hall where every student tells a story. This
+                    visualization maps the entire student body, revealing the hidden prevalence of
+                    stress across different demographics.
+                </p>
+                <div class="instruction-box">
+                    <h4><span class="icon">ℹ️</span> How to Explore</h4>
+                    <ul>
+                        <li><strong>Observe:</strong> Each figure represents a real student.</li>
+                        <li><strong>Color Code:</strong> <span style="color:#e57373">Red</span> = High
+                            Stress, <span style="color:#ffb74d">Orange</span> = Moderate, <span
                                     style="color:#64b5f6">Blue</span> = Low.</li>
-                            <li><strong>Interact:</strong> Hover over any student to reveal their specific
-                                major, year, and stress score.</li>
-                            <li><strong>Filter:</strong> Use the menu (top-left) to isolate specific groups
-                                like "Freshmen" or "CS Majors".</li>
-                        </ul>
-                    </div>
+                        <li><strong>Interact:</strong> Hover over any student to reveal their specific
+                            major, year, and stress score.</li>
+                        <li><strong>Filter:</strong> Use the menu (top-left) to isolate specific groups
+                            like "Freshmen" or "CS Majors".</li>
+                    </ul>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- SLIDE 5: RADAR AVATARS -->
-        <div class="section" id="section-radar">
-            <div class="wrap slide-grid">
-                <div class="vis-area">
-                    <h2 class="section-title">Wellness Profiles</h2>
-                    <div id="radar-vis" class="visbox"></div>
-                </div>
-                <div class="sidebar">
-                    <p class="muted">
-                        Stress rarely comes alone. This map explores the multidimensional nature of student
-                        wellness, correlating stress with sleep, exercise, anxiety, and depression.
-                    </p>
-                    <div class="instruction-box">
-                        <h4><span class="icon">ℹ️</span> How to Analyze</h4>
-                        <ul>
-                            <li><strong>Modes:</strong> Use the toolbar (top-right of chart) to sort
-                                students by <em>Sleep</em>, <em>Exercise</em>, or <em>Severity</em>.</li>
-                            <li><strong>Deep Dive:</strong> Hover over any stick figure to expand a detailed
-                                <strong>Radar Chart</strong> showing their balance of 5 key wellness
-                                metrics.
-                            </li>
-                            <li><strong>Pattern Finding:</strong> Look for clusters of similar colors to
-                                identify high-risk groups.</li>
-                        </ul>
-                    </div>
+    <!-- SLIDE 5: RADAR AVATARS -->
+    <div class="section" id="section-radar">
+        <div class="wrap slide-grid">
+            <div class="vis-area">
+                <h2 class="section-title">Wellness Profiles</h2>
+                <div id="radar-vis" class="visbox"></div>
+            </div>
+            <div class="sidebar">
+                <p class="muted slide-description">
+                    Stress rarely comes alone. This map explores the multidimensional nature of student
+                    wellness, correlating stress with sleep, exercise, anxiety, and depression.
+                </p>
+                <div class="instruction-box">
+                    <h4><span class="icon">ℹ️</span> How to Analyze</h4>
+                    <ul>
+                        <li><strong>Modes:</strong> Use the toolbar (top-right of chart) to sort
+                            students by <em>Sleep</em>, <em>Exercise</em>, or <em>Severity</em>.</li>
+                        <li><strong>Deep Dive:</strong> Hover over any stick figure to expand a detailed
+                            <strong>Radar Chart</strong> showing their balance of 5 key wellness
+                            metrics.
+                        </li>
+                        <li><strong>Pattern Finding:</strong> Look for clusters of similar colors to
+                            identify high-risk groups.</li>
+                    </ul>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- SLIDE 6: INTERLUDE 1 -->
-        <div class="section">
-            <div class="wrap">
-                <div class="panel soft">
-                    <h2 class="section-title">The Sleep-Stress Connection</h2>
-                    <p class="muted">
+    <!-- SLIDE 6: INTERLUDE 1 -->
+    <div class="section">
+        <div class="wrap interlude-layout">
+            <h2 class="section-title interlude-title">The Sleep-Stress Connection</h2>
+            <div class="panel soft overview-card overview-card--sleep">
+                <div class="overview-icon icon-night" aria-hidden="true"></div>
+
+                <div class="interlude-body">
+                    <p class="muted interlude-text">
                         "I'll sleep when I'm done." — A common mantra, but at what cost? <br>
                         Our data reveals a critical link between irregular sleep schedules and elevated
                         stress levels.
@@ -198,302 +237,314 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- SLIDE 7: SLEEP ORBIT -->
-        <div class="section" id="section-sleep">
-            <div class="wrap slide-grid">
-                <div class="vis-area">
-                    <h2 class="section-title">The Sleep Orbit</h2>
-                    <div id="sleep-orbit-vis" class="visbox"></div>
-                </div>
-                <div class="sidebar">
-                    <p class="muted">
-                        Visualize the rhythm of rest. This interactive orbit demonstrates how sleep timing
-                        and duration directly impact academic pressure and mental health.
-                    </p>
-                    <div class="controls-container" style="margin: 20px 0;">
-                        <label style="display:block; margin-bottom:10px;">
+    <!-- SLIDE 7: SLEEP ORBIT -->
+    <div class="section" id="section-sleep">
+        <div class="wrap slide-grid">
+            <div class="vis-area">
+                <h2 class="section-title">The Sleep Orbit</h2>
+                <div id="sleep-orbit-vis" class="visbox"></div>
+            </div>
+            <div class="sidebar">
+                <p class="muted">
+                    Visualize the rhythm of rest. This interactive orbit demonstrates how sleep timing
+                    and duration directly impact academic pressure and mental health.
+                </p>
+                <div class="controls-container" style="margin: 20px 0;">
+                    <label style="display:block; margin-bottom:10px;">
                             <span class="muted" style="font-size:0.9rem;">Time in Bed (hrs after 8pm): <span
                                     id="val-bed" style="font-weight:bold; color:var(--accent);">0</span></span>
-                            <input type="range" id="sleep-orbit-time-in-bed" min="0" max="16" step="0.5" value="0"
-                                style="width:100%;">
-                        </label>
-                        <label style="display:block; margin-bottom:10px;">
+                        <input type="range" id="sleep-orbit-time-in-bed" min="0" max="16" step="0.5" value="0"
+                               style="width:100%;">
+                    </label>
+                    <label style="display:block; margin-bottom:10px;">
                             <span class="muted" style="font-size:0.9rem;">Sleep Start (hrs after 8pm): <span
                                     id="val-sleep" style="font-weight:bold; color:var(--accent);">1</span></span>
-                            <input type="range" id="sleep-orbit-sleep-start-time" min="0" max="16" step="0.5" value="1"
-                                style="width:100%;">
-                        </label>
-                        <label style="display:block; margin-bottom:10px;">
+                        <input type="range" id="sleep-orbit-sleep-start-time" min="0" max="16" step="0.5" value="1"
+                               style="width:100%;">
+                    </label>
+                    <label style="display:block; margin-bottom:10px;">
                             <span class="muted" style="font-size:0.9rem;">Wake Up Time (hrs after 8pm): <span
                                     id="val-wake" style="font-weight:bold; color:var(--accent);">12</span></span>
-                            <input type="range" id="sleep-orbit-wake-up-time" min="0" max="16" step="0.5" value="12"
-                                style="width:100%;">
-                        </label>
-                    </div>
-                    <div class="instruction-box">
-                        <h4><span class="icon">ℹ️</span> How to Simulate</h4>
-                        <ul>
-                            <li><strong>Adjust:</strong> Drag the sliders to change <em>Bed Time</em>,
-                                <em>Sleep Duration</em>, and <em>Wake Up Time</em>.
-                            </li>
-                            <li><strong>Visualize:</strong> The blue arc represents the sleep window on a
-                                24-hour clock.</li>
-                            <li><strong>Predict:</strong> Watch the statistics update to see the predicted
-                                stress level for a student with that schedule.</li>
-                        </ul>
-                    </div>
+                        <input type="range" id="sleep-orbit-wake-up-time" min="0" max="16" step="0.5" value="12"
+                               style="width:100%;">
+                    </label>
+                </div>
+                <div class="instruction-box">
+                    <h4><span class="icon">ℹ️</span> How to Simulate</h4>
+                    <ul>
+                        <li><strong>Adjust:</strong> Drag the sliders to change <em>Bed Time</em>,
+                            <em>Sleep Duration</em>, and <em>Wake Up Time</em>.
+                        </li>
+                        <li><strong>Visualize:</strong> The blue arc represents the sleep window on a
+                            24-hour clock.</li>
+                        <li><strong>Predict:</strong> Watch the statistics update to see the predicted
+                            stress level for a student with that schedule.</li>
+                    </ul>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- SLIDE 8: INTERLUDE 2 -->
-        <div class="section">
-            <div class="wrap">
-                <div class="panel soft">
-                    <h2 class="section-title">The Emotional Triangle</h2>
-                    <p class="muted">
+    <!-- SLIDE 8: INTERLUDE 2 -->
+    <div class="section">
+        <div class="wrap interlude-layout">
+            <h2 class="section-title interlude-title">The Emotional Triangle</h2>
+            <div class="panel soft overview-card overview-card--triangle">
+                <div class="overview-icon icon-cloud" aria-hidden="true"></div>
+
+                <div class="interlude-body">
+                    <p class="muted interlude-text">
                         Stress, Anxiety, and Depression often form a triad. <br>
                         Understanding how they interact is key to finding balance.
                     </p>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- SLIDE 9: TERNARY PLOT -->
-        <div class="section" id="section-ternary">
-            <div class="wrap slide-grid">
-                <div class="vis-area">
-                    <h2 class="section-title">Emotion Constellation</h2>
-                    <div id="triangle-vis" class="visbox"></div>
-                </div>
-                <div class="sidebar">
-                    <p class="muted">
-                        This ternary plot reveals the delicate balance between Stress, Anxiety, and Depression.
-                        Each point is a student, positioned by the relative intensity of these three emotions.
-                        Corners represent extreme dominance of one emotion, while the center represents a mix.
-                    </p>
-                    <div class="instruction-box">
-                        <h4><span class="icon">ℹ️</span> How to Interpret</h4>
-                        <ul>
-                            <li><strong>Position:</strong> Points near a corner have high levels of that
-                                specific emotion. Center points are balanced.</li>
-                            <li><strong>Select:</strong> Drag a box (Brush) or hold <strong>Shift</strong>
-                                to Lasso a specific group of students.</li>
-                            <li><strong>Tools:</strong> Toggle the <em>Heatmap</em> to see density clusters.
-                            </li>
-                        </ul>
-                    </div>
+    <!-- SLIDE 9: TERNARY PLOT -->
+    <div class="section" id="section-ternary">
+        <div class="wrap slide-grid">
+            <div class="vis-area">
+                <h2 class="section-title">Emotion Constellation</h2>
+                <div id="triangle-vis" class="visbox"></div>
+            </div>
+            <div class="sidebar">
+                <p class="muted slide-description">
+                    This ternary plot reveals the delicate balance between Stress, Anxiety, and Depression.
+                    Each point is a student, positioned by the relative intensity of these three emotions.
+                    Corners represent extreme dominance of one emotion, while the center represents a mix.
+                </p>
+                <div class="instruction-box">
+                    <h4><span class="icon">ℹ️</span> How to Interpret</h4>
+                    <ul>
+                        <li><strong>Position:</strong> Points near a corner have high levels of that
+                            specific emotion. Center points are balanced.</li>
+                        <li><strong>Select:</strong> Drag a box (Brush) or hold <strong>Shift</strong>
+                            to Lasso a specific group of students.</li>
+                        <li><strong>Tools:</strong> Toggle the <em>Heatmap</em> to see density clusters.
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- SLIDE 10: INTERLUDE 3 -->
-        <div class="section">
-            <div class="wrap">
-                <div class="panel soft">
-                    <h2 class="section-title">Growth & Coping</h2>
-                    <p class="muted">
+    <!-- SLIDE 10: INTERLUDE 3 -->
+    <div class="section">
+        <div class="wrap interlude-layout">
+            <h2 class="section-title interlude-title">Growth & Coping</h2>
+            <div class="panel soft overview-card overview-card--interlude">
+                <div class="overview-icon icon-sticky" aria-hidden="true"></div>
+
+                <div class="interlude-body">
+                    <p class="muted interlude-text">
                         It's not just about the struggle; it's about resilience. <br>
                         What strategies do students use to cope, and which ones actually work?
                     </p>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- SLIDE 11: GARDEN -->
-        <div class="section" id="section-garden">
-            <div class="wrap slide-grid">
-                <div class="vis-area">
-                    <h2 class="section-title">The Coping Garden</h2>
-                    <div id="garden-vis" class="visbox"></div>
-                </div>
-                <div class="sidebar">
-                    <p class="muted">
-                        A metaphorical garden where every flower is a coping strategy. Some are tall and
-                        strong (effective), others are small but numerous (popular).
-                    </p>
-                    <div class="instruction-box">
-                        <h4><span class="icon">ℹ️</span> How to Harvest</h4>
-                        <ul>
-                            <li><strong>Metaphor:</strong> <br>🌸 <strong>Flower Type</strong> = Strategy
-                                <br>📏 <strong>Height</strong> = Effectiveness (Taller is better) <br>📐
-                                <strong>Size</strong> = Popularity.
-                            </li>
-                            <li><strong>Explore:</strong> Hover over flowers to see the strategy name and
-                                stats.</li>
-                            <li><strong>Connect:</strong> Click a flower to highlight students in the
-                                <em>Triangle</em> who use that strategy.
-                            </li>
-                        </ul>
-                    </div>
+    <!-- SLIDE 11: GARDEN -->
+    <div class="section" id="section-garden">
+        <div class="wrap slide-grid">
+            <div class="vis-area">
+                <h2 class="section-title">The Coping Garden</h2>
+                <div id="garden-vis" class="visbox"></div>
+            </div>
+            <div class="sidebar">
+                <p class="muted slide-description">
+                    A metaphorical garden where every flower is a coping strategy. Some are tall and
+                    strong (effective), others are small but numerous (popular).
+                </p>
+                <div class="instruction-box">
+                    <h4><span class="icon">ℹ️</span> How to Harvest</h4>
+                    <ul>
+                        <li><strong>Metaphor:</strong> <br>🌸 <strong>Flower Type</strong> = Strategy
+                            <br>📏 <strong>Height</strong> = Effectiveness (Taller is better) <br>📐
+                            <strong>Size</strong> = Popularity.
+                        </li>
+                        <li><strong>Explore:</strong> Hover over flowers to see the strategy name and
+                            stats.</li>
+                        <li><strong>Connect:</strong> Click a flower to highlight students in the
+                            <em>Triangle</em> who use that strategy.
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
-
-        <!-- SLIDE 11 — MAIN MESSAGES -->
-        <!-- SLIDE 12 — MAIN MESSAGES 1 -->
-        <div class="section">
-            <section class="wrap">
-                <div class="panel" style="text-align:center; border-left: 8px solid var(--accent);">
-                    <h1 style="font-size:3.5rem; margin-bottom:1rem;">Balance is Measurable</h1>
-                    <p class="muted" style="font-size:1.5rem;">
-                        Our data shows that <strong>72%</strong> of students with irregular sleep patterns report high
-                        stress levels.
-                        <br>It's not just a feeling—it's a correlation.
-                    </p>
-                </div>
-            </section>
-        </div>
-
-        <!-- SLIDE 13 — MAIN MESSAGES 2 -->
-        <div class="section">
-            <section class="wrap">
-                <div class="panel" style="text-align:center; border-right: 8px solid var(--accent);">
-                    <h1 style="font-size:3.5rem; margin-bottom:1rem;">Coping Matters</h1>
-                    <p class="muted" style="font-size:1.5rem;">
-                        Students who engage in active coping strategies like <strong>Exercise</strong> and
-                        <strong>Socializing</strong>
-                        report <strong>20% lower</strong> anxiety scores than those who isolate.
-                    </p>
-                </div>
-            </section>
-        </div>
-
-        <!-- SLIDE 14 — SOLUTION -->
-        <div class="section">
-            <section id="solution" class="wrap">
-                <div class="panel" style="text-align:center;">
-                    <h2 class="section-title">Find Your Balance</h2>
-                    <p class="muted" style="font-size:1.2rem;">
-                        Use the simulator in the controls panel to see how small changes in sleep and exercise can
-                        predict a healthier semester.
-                    </p>
-                    <button class="btn theme-btn" onclick="document.getElementById('vis-control-toggle').click()">Open
-                        Simulator</button>
-                </div>
-            </section>
-        </div>
-
-        <!-- FOOTER -->
-        <div class="section">
-            <footer class="wrap">
-                © 2025 Team: Ayaan Asif · Cynthia Liu · Faraz Malik · Tahseen Rana
-            </footer>
-        </div>
-
-    </div><!-- end fullpage -->
-
-    <div id="tooltip" class="tooltip"
-        style="display:none; position:fixed; z-index:9999; pointer-events:none; background:rgba(255,255,255,0.95); padding:12px; border:1px solid #ccc; border-radius:4px; box-shadow:0 4px 12px rgba(0,0,0,0.15); font-family:sans-serif; font-size:0.9rem; max-width:240px;">
     </div>
 
-    <!-- SCRIPTS -->
-    <script src="js/utils.js" defer></script>
-    <script src="js/sleep-orbit.js" defer></script>
-    <script src="js/ternary.js" defer></script>
-    <script src="js/garden.js" defer></script>
-    <script src="js/radar_avatars.js" defer></script>
-    <script src="js/classroom.js" defer></script>
-    <script src="js/main.js" defer></script>
+    <!-- SLIDE 11 — MAIN MESSAGES -->
+    <!-- SLIDE 12 — MAIN MESSAGES 1 -->
+    <div class="section">
+        <section class="wrap">
+            <div class="panel overview-card overview-card--message-left" style="text-align:center; border-left: 8px solid var(--accent);">
+                <div class="overview-icon icon-moon" aria-hidden="true"></div>
+                <h1 style="font-size:3.5rem; margin-bottom:1rem;">Balance is Measurable</h1>
+                <p class="muted" style="font-size:1.5rem;">
+                    Our data shows that <strong>72%</strong> of students with irregular sleep patterns report high
+                    stress levels.
+                    <br>It's not just a feeling—it's a correlation.
+                </p>
+            </div>
+        </section>
+    </div>
 
-    <!-- Theme toggle -->
-    <script>
-        (function () {
-            const btn = document.getElementById('themeToggle');
-            if (!btn) return;
+    <!-- SLIDE 13 — MAIN MESSAGES 2 -->
+    <div class="section">
+        <section class="wrap">
+            <div class="panel overview-card overview-card--message-right" style="text-align:center; border-right: 8px solid var(--accent);">
+                <div class="overview-icon icon-watering" aria-hidden="true"></div>
+                <h1 style="font-size:3.5rem; margin-bottom:1rem;">Coping Matters</h1>
+                <p class="muted" style="font-size:1.5rem;">
+                    Students who engage in active coping strategies like <strong>Exercise</strong> and
+                    <strong>Socializing</strong>
+                    report <strong>20% lower</strong> anxiety scores than those who isolate.
+                </p>
+            </div>
+        </section>
+    </div>
 
-            function setTheme(t) {
-                document.documentElement.dataset.theme = t;
-                if (window.bus) bus.call('themeChange', null, t);
-                btn.textContent = (t === 'night') ? 'Day Mode' : 'Night Mode';
-            }
-            btn.addEventListener('click', function () {
-                const cur = document.documentElement.dataset.theme === 'night' ? 'day' : 'night';
-                setTheme(cur);
-            });
-        })();
-    </script>
+    <!-- SLIDE 14 — SOLUTION -->
+    <div class="section">
+        <section id="solution" class="wrap">
+            <div class="panel overview-card overview-card--solution" style="text-align:center;">
+                <div class="overview-icon icon-sun" aria-hidden="true"></div>
+                <h2 class="section-title">Find Your Balance</h2>
+                <p class="muted" style="font-size:1.2rem;">
+                    Use the simulator in the controls panel to see how small changes in sleep and exercise can
+                    predict a healthier semester.
+                </p>
+                <button class="btn theme-btn" onclick="document.getElementById('vis-control-toggle').click()">Open
+                    Simulator</button>
+            </div>
+        </section>
+    </div>
 
-    <!--COLLAPSIBLE PANEL LOGIC -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
+    <!-- FOOTER -->
+    <div class="section">
+        <footer class="wrap">
+            © 2025 Team: Ayaan Asif · Cynthia Liu · Faraz Malik · Tahseen Rana
+        </footer>
+    </div>
 
-            const panel = document.getElementById("vis-control-panel");
-            const toggleBtn = document.getElementById("vis-control-toggle");
-            const panelContent = document.getElementById("panel-content");
+</div><!-- end fullpage -->
 
-            // Move the controls into the sidebar panel
-            const originalControls = document.querySelector("#hidden-controls-source .panel");
-            if (originalControls) {
-                panelContent.appendChild(originalControls);
-            }
+<div id="tooltip" class="tooltip"
+     style="display:none; position:fixed; z-index:9999; pointer-events:none; background:rgba(255,255,255,0.95); padding:12px; border:1px solid #ccc; border-radius:4px; box-shadow:0 4px 12px rgba(0,0,0,0.15); font-family:sans-serif; font-size:0.9rem; max-width:240px;">
+</div>
 
-            let currentSection = 0;
+<!-- SCRIPTS -->
+<script src="js/utils.js" defer></script>
+<script src="js/sleep-orbit.js" defer></script>
+<script src="js/ternary.js" defer></script>
+<script src="js/garden.js" defer></script>
+<script src="js/radar_avatars.js" defer></script>
+<script src="js/classroom.js" defer></script>
+<script src="js/main.js" defer></script>
 
-            // Visualization slides indices (0-indexed)
-            // Slide 0: Title
-            // Slide 1: Intro (Hook)
-            // Slide 2: Intro to Vis
-            // Slide 3: Classroom
-            // Slide 4: Radar
-            // Slide 5: Interlude 1
-            // Slide 6: Sleep
-            // Slide 7: Interlude 2
-            // Slide 8: Ternary
-            // Slide 9: Interlude 3
-            // Slide 10: Garden
-            const visSlides = [3, 6, 8, 10];
+<!-- Theme toggle -->
+<script>
+    (function () {
+        const btn = document.getElementById('themeToggle');
+        if (!btn) return;
 
-            function updateVisibility(index) {
-                if (visSlides.includes(index)) {
-                    toggleBtn.classList.add("visible");
-                } else {
-                    toggleBtn.classList.remove("visible");
-                    closePanel();
-                }
-            }
-
-            function openPanel() {
-                panel.classList.add("open");
-                const active = document.querySelector(".section.active");
-                if (active) active.classList.add("panel-open");
-            }
-
-            function closePanel() {
-                panel.classList.remove("open");
-                const active = document.querySelector(".section.active");
-                if (active) active.classList.remove("panel-open");
-            }
-
-            toggleBtn.addEventListener("click", () => {
-                if (panel.classList.contains("open")) closePanel();
-                else openPanel();
-            });
-
-            // fullPage.js init
-            new fullpage('#fullpage', {
-                autoScrolling: true,
-                navigation: true,
-                scrollingSpeed: 850,
-                afterLoad: (origin, destination) => {
-                    currentSection = destination.index;
-                    updateVisibility(destination.index);
-                    if (window.updateStressCharacter) window.updateStressCharacter(destination.index);
-                    if (window.triggerAnimations) window.triggerAnimations(destination.index);
-                }
-            });
-
-            // Initialize enhancements
-            if (window.updateStressCharacter) window.updateStressCharacter(0);
-            if (window.triggerAnimations) window.triggerAnimations(0);
+        function setTheme(t) {
+            document.documentElement.dataset.theme = t;
+            if (window.bus) bus.call('themeChange', null, t);
+            btn.textContent = (t === 'night') ? 'Day Mode' : 'Night Mode';
+        }
+        btn.addEventListener('click', function () {
+            const cur = document.documentElement.dataset.theme === 'night' ? 'day' : 'night';
+            setTheme(cur);
         });
-    </script>
+    })();
+</script>
 
-    <!-- Student Stress Character -->
-    <div id="stress-character-container">
-        <div class="stress-char"></div>
-    </div>
+<!--COLLAPSIBLE PANEL LOGIC -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const panel = document.getElementById("vis-control-panel");
+        const toggleBtn = document.getElementById("vis-control-toggle");
+        const panelContent = document.getElementById("panel-content");
+
+        // Move the controls into the sidebar panel
+        const originalControls = document.querySelector("#hidden-controls-source .panel");
+        if (originalControls) {
+            panelContent.appendChild(originalControls);
+        }
+
+        let currentSection = 0;
+
+        // Visualization slides indices (0-indexed)
+        // Slide 0: Title
+        // Slide 1: Intro (Hook)
+        // Slide 2: Intro to Vis
+        // Slide 3: Classroom
+        // Slide 4: Radar
+        // Slide 5: Interlude 1
+        // Slide 6: Sleep
+        // Slide 7: Interlude 2
+        // Slide 8: Ternary
+        // Slide 9: Interlude 3
+        // Slide 10: Garden
+        const visSlides = [3, 6, 8, 10];
+
+        function updateVisibility(index) {
+            if (visSlides.includes(index)) {
+                toggleBtn.classList.add("visible");
+            } else {
+                toggleBtn.classList.remove("visible");
+                closePanel();
+            }
+        }
+
+        function openPanel() {
+            panel.classList.add("open");
+            const active = document.querySelector(".section.active");
+            if (active) active.classList.add("panel-open");
+        }
+
+        function closePanel() {
+            panel.classList.remove("open");
+            const active = document.querySelector(".section.active");
+            if (active) active.classList.remove("panel-open");
+        }
+
+        toggleBtn.addEventListener("click", () => {
+            if (panel.classList.contains("open")) closePanel();
+            else openPanel();
+        });
+
+        // fullPage.js init
+        new fullpage('#fullpage', {
+            autoScrolling: true,
+            navigation: true,
+            scrollingSpeed: 850,
+            afterLoad: (origin, destination) => {
+                currentSection = destination.index;
+                updateVisibility(destination.index);
+                if (window.updateStressCharacter) window.updateStressCharacter(destination.index);
+                if (window.triggerAnimations) window.triggerAnimations(destination.index);
+            }
+        });
+
+        // Initialize enhancements
+        if (window.updateStressCharacter) window.updateStressCharacter(0);
+        if (window.triggerAnimations) window.triggerAnimations(0);
+    });
+</script>
+
+<!-- Student Stress Character -->
+<div id="stress-character-container">
+    <div class="stress-char"></div>
+</div>
 
 </body>
 
