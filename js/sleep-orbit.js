@@ -1,14 +1,14 @@
 (function () {
     const container = document.getElementById("sleep-orbit-vis");
     const width = (container.clientWidth || 980);
-    const height = 400;
+    const height = 320;
 
-    const innerR = 200;
-    const outerR = 300;
+    const innerR = 170;
+    const outerR = 260;
 
     // For main arc
     const cx = width / 2;
-    const cy = outerR + 50
+    const cy = outerR + 30
 
     // semicircle angles: 0 to 180 in radians
     // zeros are different compared to arc
