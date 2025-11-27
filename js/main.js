@@ -191,7 +191,7 @@
     function getVal(id) { const el = document.getElementById(id); return el ? el.value : ""; }
 
     function setupControls(rows) {
-        const yearKey = firstKey(rows, ["year", "Year", "student_year", "academic_year", "Year_Level", "Year of Study"]);
+        const yearKey = firstKey(rows, ["1._what_is_your_year_of_study?", "year", "Year", "student_year", "academic_year", "Year_Level", "Year of Study"]);
         const majorKey = firstKey(rows, ["major", "Major", "program", "Program", "field", "Department"]);
         const genderKey = firstKey(rows, ["gender", "Gender", "sex", "Sex"]);
 
