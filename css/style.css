@@ -144,7 +144,8 @@ body {
 
     margin: 0;
     padding: 0;
-    overflow: hidden; /* Let fullPage handle scrolling */
+    overflow: hidden;
+    /* Let fullPage handle scrolling */
 }
 
 body {
@@ -726,10 +727,13 @@ footer {
 }
 
 @keyframes floatSparkle {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateY(0px) rotate(0deg);
         opacity: 0.5;
     }
+
     50% {
         transform: translateY(-8px) rotate(4deg);
         opacity: 0.95;
@@ -793,6 +797,7 @@ footer {
     font-size: 1.3rem;
     line-height: 1.7;
 }
+
 /* === Interlude Layout: title on top, centered description, side graphics === */
 
 /* Intro emotion icon rotator (inspired by Dogs of New York intro flow) */
@@ -814,22 +819,42 @@ footer {
 }
 
 /* Staggered delays so icons fade in one after another */
-.intro-emotion-rotator .emotion-frame-1 { animation-delay: 0s; }
-.intro-emotion-rotator .emotion-frame-2 { animation-delay: 4s; }
-.intro-emotion-rotator .emotion-frame-3 { animation-delay: 8s; }
-.intro-emotion-rotator .emotion-frame-4 { animation-delay: 12s; }
-.intro-emotion-rotator .emotion-frame-5 { animation-delay: 16s; }
+.intro-emotion-rotator .emotion-frame-1 {
+    animation-delay: 0s;
+}
+
+.intro-emotion-rotator .emotion-frame-2 {
+    animation-delay: 4s;
+}
+
+.intro-emotion-rotator .emotion-frame-3 {
+    animation-delay: 8s;
+}
+
+.intro-emotion-rotator .emotion-frame-4 {
+    animation-delay: 12s;
+}
+
+.intro-emotion-rotator .emotion-frame-5 {
+    animation-delay: 16s;
+}
 
 @keyframes introEmotionFade {
-    0%, 8% {
+
+    0%,
+    8% {
         opacity: 0;
         transform: translateY(6px) scale(0.98);
     }
-    10%, 20% {
+
+    10%,
+    20% {
         opacity: 1;
         transform: translateY(0) scale(1);
     }
-    22%, 100% {
+
+    22%,
+    100% {
         opacity: 0;
         transform: translateY(-4px) scale(0.98);
     }
@@ -843,6 +868,7 @@ footer {
         margin-top: 1.25rem;
     }
 }
+
 .interlude-layout {
     display: flex;
     flex-direction: column;
@@ -878,6 +904,7 @@ footer {
         opacity: 0;
         transform: translateY(16px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -889,6 +916,7 @@ footer {
         opacity: 0;
         transform: translateY(24px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -977,18 +1005,22 @@ footer {
 
 /* === Sleep Orbit layout tweaks === */
 #section-sleep .slide-grid {
-    height: 72vh;              /* slightly shorter so everything fits */
-    align-items: center;       /* vertically center vis + sidebar */
+    height: 72vh;
+    /* slightly shorter so everything fits */
+    align-items: center;
+    /* vertically center vis + sidebar */
 }
 
 #section-sleep .sidebar p.muted,
 #section-sleep .instruction-box li {
-    font-size: 0.95rem;        /* a bit smaller text so we keep all wording */
+    font-size: 0.95rem;
+    /* a bit smaller text so we keep all wording */
     line-height: 1.45;
 }
 
 #section-sleep .controls-container {
-    margin: 10px 0 14px 0;     /* tighter spacing around sliders */
+    margin: 10px 0 14px 0;
+    /* tighter spacing around sliders */
 }
 
 #section-sleep .instruction-box ul {
